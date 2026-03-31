@@ -1,0 +1,17 @@
+body{
+
+    background: linear-gradient(150deg, #599e3b , #e3e567 );
+}
+
+
+
+.button{
+    color:  #98994f;
+    background-color: #98994f;
+    
+    text-decoration: white;
+    
+}button:hover{
+    transform: scale(1.05);
+    background-color: #e3e567;
+}
