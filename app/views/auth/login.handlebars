@@ -1,16 +1,12 @@
-<form action="/login" method="post">
-    <h2>Login</h2>
-    <form>
-    <label>Seu telefone:</label><br>
-    <input type="tel" placeholder="Digite seu telefone" required><br><br>
+<form class="form" action="/login" method="post">
+    <h1>Acessar</h1>
     
-    <labe>Sua senha</labe><br>
-    <input type="password" placeholder="Digite sua senha" required><br><br>
+    <label>Telefone</label>
+    <input type="tel" name="telefone" id="loginTelefone" placeholder="Digite seu telefone" required>
+
+    <label>Senha</label>
+    <input type="password" name="senha" id="loginSenha" placeholder="Informe sua senha" required>
+    
     <button type="submit">Entrar</button>
-    </form>
-
-    <hr>
-
-    <h2>Cadastro</h2>
-    <form>        
+</form>
 </form>
