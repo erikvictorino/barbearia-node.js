@@ -1,0 +1,22 @@
+/* recuperar.css */
+#numero, #codigo, #Nsenha {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.recuperar p {
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* Ajuste do link que está com estilo inline no seu HTML */
+.link-cadastro {
+    color: #ffffff !important;
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+    opacity: 0.7;
+}

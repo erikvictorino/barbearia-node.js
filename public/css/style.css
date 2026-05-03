@@ -1,98 +1,87 @@
-body{
-
-    background: linear-gradient(150deg, #599e3b , #e3e567 );
-}
-
-
-
-.button{
-    color:  #98994f;
-    background-color: #98994f;
-    
-    text-decoration: white;
-    
-}button:hover{
-    transform: scale(1.05);
-    background-color: #e3e567;
-}/* style.css */
-
+/* style.css */
 body {
-    background: linear-gradient(150deg, #599e3b, #e3e567);
+    margin: 0;
+    padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    margin: 0;
-    padding: 20px;
+    width: 100vw;
+    overflow-x: hidden;
+    background-color: #000; /* Fundo preto sólido conforme solicitado */
 }
 
 .form {
-    background-color: white;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 350px;
-    margin-bottom: 40px;
+    background: rgba(255, 255, 255, 0.05); /* Transparência do vidro */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 35px;
+    padding: 30px 50px; 
+    width: 600px;
+    max-width: 92%; 
     display: flex;
     flex-direction: column;
+    box-sizing: border-box; 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
 }
 
 .form h1 {
-    color: #599e3b;
-    margin-top: 0;
+    color: #ffffff;
+    text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.5);
     text-align: center;
+    margin-bottom: 20px;
     font-size: 28px;
+    font-weight: 700;
 }
 
 .form label {
-    color: #333;
+    color: #ffffff;
     font-weight: 600;
-    margin-bottom: 8px;
-    margin-top: 10px;
+    margin-top: 12px;
+    font-size: 14px;
 }
 
 .form input {
-    background-color: #f9f9f9;
-    border: 2px solid #eee;
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
-
-.form input:focus {
-    border-color: #599e3b;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 14px;
+    color: #ffffff;
+    margin-top: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 15px;
     outline: none;
-    background-color: #fff;
 }
 
 .form button {
-    background-color: #599e3b; /* Cor base do seu CSS */
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 15px;
-    font-size: 18px;
-    font-weight: bold;
+    background: linear-gradient(135deg, rgba(89, 158, 59, 0.5), rgba(185, 187, 76, 0.5));
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px 25px;
+    font-weight: 700;
+    font-size: 13px;
+    margin: 25px auto 0 auto; 
     cursor: pointer;
-    margin-top: 25px;
+    text-transform: uppercase;
+    min-width: 160px;
     transition: all 0.3s ease;
 }
 
 .form button:hover {
-    transform: scale(1.05);
-    background-color: #e3e567; /* Amarelo do seu CSS */
-    color: #599e3b; /* Texto fica verde no hover */
+    background: linear-gradient(135deg, rgba(185, 187, 76, 0.8), rgba(89, 158, 59, 0.8));
+    transform: translateY(-2px);
 }
 
-hr {
-    border: 0;
-    height: 2px;
-    background-color: rgba(255, 255, 255, 0.3);
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 40px;
+/* Responsividade */
+@media (max-width: 640px) {
+    .form {
+        width: 95%;
+        padding: 25px 20px;
+    }
 }
