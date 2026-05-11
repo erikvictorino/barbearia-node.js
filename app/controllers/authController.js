@@ -29,4 +29,10 @@ export default class authController{
             res.redirect('/')
         })
     }
+    static register(req, res){
+        res.render('auth/register')
+    }
+    static async registerPost(req, res){
+        
+    }
 }

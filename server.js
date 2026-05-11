@@ -18,9 +18,10 @@ import Service from './app/models/Servicos.js'
 import Agendamento from './app/models/Agendamento.js'
 //importando as rotas
 import homeRoutes from './app/routes/homeRoutes.js'
+import authRoutes from './app/routes/authRoutes.js'
 
-import {join} from 'path'
-import {tmpdir} from 'os'
+import { join } from 'path'
+import { tmpdir } from 'os'
 
 //iniciando express na variavel app
 const app = express()
@@ -46,7 +47,7 @@ app.use(
         saveUninitialized: false,
 
         store: new fileStore({
-            logFn: function () {},
+            logFn: function () { },
             path: join(tmpdir(), 'sessions'),
         }),
 
@@ -66,13 +67,14 @@ app.use(express.static('public'))
 
 
 app.use((req, res, next) => {
-    if(req.session.userId){
+    if (req.session.userId) {
         res.locals.session = req.session
     }
     next()
 })
 
 // middleware para ROTAS
+app.use('/', authRoutes)
 app.use('/', homeRoutes)
 
 //sincronizando os models com o banco de dados
