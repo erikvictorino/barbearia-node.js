@@ -1,7 +1,10 @@
 /* login.css */
-#loginP {
+.oginP {
     display: flex;
     flex-direction: column;
+}
+*{
+    background-color: red;
 }
 
 .recuperar, .cadastro {

@@ -4,7 +4,7 @@ import { DataTypes } from "sequelize";
 import db from '../../config/database.js'
 
 //criando a tabela servico
-const Servico = db.define('servico', {
+const Servicos = db.define('servico', {
     //colunas da tabela servico
     nome: {
         //tipo de dado da coluna
@@ -16,6 +16,9 @@ const Servico = db.define('servico', {
         type: DataTypes.DECIMAL,
         allowNull: false //não pode estar vazio
     }
+    }, {
+    tableName: 'servicos',
+    timestamps: true
 })
 //exportando o model
-export default Servico
+export default Servicos

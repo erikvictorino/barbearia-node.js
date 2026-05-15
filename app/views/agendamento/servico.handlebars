@@ -1,3 +1,7 @@
-<h1>
-    serviços do the
-</h1>
+<h1>serviços do the</h1>
+<ul class="service-list">
+    {{#each servicos}}
+        <h1>{{this.nome}}</h1>
+        <h2>{{this.preco}}</h2>
+    {{/each}}
+</ul>
