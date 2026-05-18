@@ -1,22 +1,39 @@
-/* recuperar.css */
-#numero, #codigo, #Nsenha {
+/* ========== recuperar.css ========== */
+
+.recuperar {
+    display: flex;
+    flex-direction: column;
+}
+
+#numero,
+#codigo,
+#Nsenha {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 }
 
 .recuperar p {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(240, 236, 228, 0.5);
     text-align: center;
-    font-size: 14px;
-    margin-bottom: 10px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    line-height: 1.6;
 }
 
-/* Ajuste do link que está com estilo inline no seu HTML */
 .link-cadastro {
-    color: #ffffff !important;
+    color: rgba(240, 236, 228, 0.5) !important;
     text-align: center;
     display: block;
     margin-top: 20px;
-    opacity: 0.7;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: color 0.25s;
+}
+
+.link-cadastro:hover {
+    color: #8a9e3a !important;
+    text-decoration: underline;
 }

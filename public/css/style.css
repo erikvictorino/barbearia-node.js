@@ -1,87 +1,365 @@
-/* style.css */
-body {
+/* ========== style.css ========== */
+
+* {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+:root {
+    --glass-bg: rgba(20, 15, 10, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-border-top: rgba(255, 255, 255, 0.35);
+    --glass-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.05);
+    --green: #5a7a2e;
+    --green-mid: #8a9e3a;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --focus-grad: linear-gradient(135deg, #5a7a2e, #c9a84c);
+    --focus-shadow: 0 0 0 3px rgba(90, 122, 46, 0.25);
+    --text: #f0ece4;
+    --text-muted: rgba(240, 236, 228, 0.55);
+    --input-bg: rgba(0, 0, 0, 0.35);
+    --btn-grad: linear-gradient(135deg, #5a7a2e, #8a9e3a);
+    --btn-hover: linear-gradient(135deg, #8a9e3a, #c9a84c);
+    --blur: blur(20px);
+    --font-title: Georgia, 'Times New Roman', serif;
+    --font-body: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    width: 100vw;
-    overflow-x: hidden;
-    background-color: #000; /* Fundo preto sólido conforme solicitado */
+    background-image: url('/imeg/fundo.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
 }
 
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.52);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ===== GLASS CARD ===== */
 .form {
-    background: rgba(255, 255, 255, 0.05); /* Transparência do vidro */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 35px;
-    padding: 30px 50px; 
-    width: 600px;
-    max-width: 92%; 
+    position: relative;
+    z-index: 1;
+    background: var(--glass-bg);
+    backdrop-filter: var(--blur) saturate(180%);
+    -webkit-backdrop-filter: var(--blur) saturate(180%);
+    border-radius: 28px;
+    padding: 44px 52px;
+    width: 580px;
+    max-width: 93vw;
     display: flex;
     flex-direction: column;
-    box-sizing: border-box; 
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+    border: 1px solid var(--glass-border);
+    border-top: 1px solid var(--glass-border-top);
+    box-shadow: var(--glass-shadow);
+    background-image: linear-gradient(
+        160deg,
+        rgba(255, 255, 255, 0.07) 0%,
+        rgba(255, 255, 255, 0.00) 50%
+    );
+    animation: fadeUp 0.5s ease forwards;
 }
 
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.form::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 2px;
+    border-radius: 0 0 4px 4px;
+    background: linear-gradient(90deg, transparent, var(--green-mid), var(--gold), transparent);
+    opacity: 0.7;
+}
+
+/* ===== TIPOGRAFIA ===== */
 .form h1 {
-    color: #ffffff;
-    text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.5);
+    font-family: var(--font-title);
+    color: var(--text);
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: 28px;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.5);
 }
 
 .form label {
-    color: #ffffff;
+    color: var(--text-muted);
+    font-size: 12px;
     font-weight: 600;
-    margin-top: 12px;
-    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    display: block;
 }
 
+/* ===== INPUTS ===== */
 .form input {
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--input-bg);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 14px;
-    color: #ffffff;
-    margin-top: 6px;
+    padding: 14px 16px;
+    color: var(--text);
     width: 100%;
-    box-sizing: border-box;
     font-size: 15px;
+    font-family: var(--font-body);
     outline: none;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
 }
 
+.form input::placeholder {
+    color: rgba(240, 236, 228, 0.3);
+}
+
+/* Foco e hover: degradê verde → amarelo */
+.form input:hover {
+    border-color: rgba(138, 158, 58, 0.4);
+}
+
+.form input:focus {
+    border-color: transparent;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow:
+        var(--focus-shadow),
+        0 0 0 1.5px #8a9e3a,
+        inset 0 0 0 1px rgba(201,168,76,0.2);
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                      linear-gradient(135deg, #5a7a2e, #c9a84c);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    border: 1.5px solid transparent;
+}
+
+/* ===== BOTÃO DO FORM ===== */
 .form button {
-    background: linear-gradient(135deg, rgba(89, 158, 59, 0.5), rgba(185, 187, 76, 0.5));
+    background: var(--btn-grad);
     color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: none;
     border-radius: 12px;
-    padding: 12px 25px;
+    padding: 14px 28px;
+    font-family: var(--font-body);
     font-weight: 700;
     font-size: 13px;
-    margin: 25px auto 0 auto; 
-    cursor: pointer;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    min-width: 160px;
+    margin: 28px auto 0;
+    cursor: pointer;
+    min-width: 180px;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(89, 120, 46, 0.4);
 }
 
 .form button:hover {
-    background: linear-gradient(135deg, rgba(185, 187, 76, 0.8), rgba(89, 158, 59, 0.8));
+    background: var(--btn-hover);
     transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(89, 120, 46, 0.55);
 }
 
-/* Responsividade */
-@media (max-width: 640px) {
+.form button:active {
+    transform: translateY(0);
+}
+
+/* ===== LINKS DO FORM ===== */
+.form a {
+    color: var(--text-muted);
+    text-align: center;
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: 16px;
+    display: block;
+    transition: color 0.25s;
+}
+
+.form a:hover {
+    color: var(--gold-light);
+    text-decoration: underline;
+}
+
+/* ===== HEADER / NAV ===== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 14px 32px;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Botão hamburguer — só aparece no mobile */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.13);
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: rgba(240, 236, 228, 0.85);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Animação das 3 linhas → X quando aberto */
+.nav-toggle.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.open span:nth-child(2) {
+    opacity: 0;
+}
+.nav-toggle.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+header nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Botões de vidro líquido no nav */
+header nav ul li a {
+    display: inline-block;
+    color: rgba(240, 236, 228, 0.8);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-top: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+header nav ul li a:hover {
+    color: #fff;
+    background: linear-gradient(135deg, rgba(90,122,46,0.4), rgba(201,168,76,0.3));
+    border-color: rgba(138, 158, 58, 0.5);
+    border-top-color: rgba(201, 168, 76, 0.7);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+    transform: translateY(-1px);
+}
+
+/* ===== FOOTER ===== */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    text-align: center;
+    padding: 14px;
+    color: rgba(255,255,255,0.3);
+    font-size: 12px;
+    background: rgba(0,0,0,0.2);
+    backdrop-filter: blur(6px);
+}
+
+/* ===== RESPONSIVO — MOBILE ===== */
+@media (max-width: 768px) {
+
     .form {
-        width: 95%;
-        padding: 25px 20px;
+        padding: 32px 22px;
+        border-radius: 20px;
+        margin-top: 70px;
+        margin-bottom: 60px;
+    }
+
+    /* Mostra o hamburguer */
+    .nav-toggle {
+        display: flex;
+    }
+
+    header {
+        padding: 12px 20px;
+        justify-content: flex-start;
+    }
+
+    header nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 8, 4, 0.92);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease, padding 0.35s ease;
+        padding: 0 20px;
+    }
+
+    /* Menu aberto */
+    header nav.open {
+        max-height: 400px;
+        padding: 16px 20px;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    header nav ul li a {
+        display: block;
+        text-align: center;
+        border-radius: 14px;
+        padding: 12px 20px;
+        font-size: 13px;
     }
 }

@@ -6,27 +6,41 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>The barber</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
-    <script src='/public/js/main.js'></script>
+    <link rel='stylesheet' type='text/css' href='/css/style.css'>
+    <script src='/js/main.js' defer></script>
 </head>
-
+<script>
+    const toggle = document.querySelector('.nav-toggle');
+    const nav    = document.querySelector('header nav');
+    toggle.addEventListener('click', () => {
+        toggle.classList.toggle('open');
+        nav.classList.toggle('open');
+    });
+</script>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="/">Início</a></li>
-                <li><a href="/contato">Contato</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/register">Cadastro</a></li>
-            </ul>
-        </nav>
-        <main>
-            {{{body}}}
-        </main>
+    <button class="nav-toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <nav>
+        <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/contato">Contato</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Cadastro</a></li>
+        </ul>
+    </nav>
+</header>
+    <main>
+        {{{body}}}
+    </main>
 
-        <footer>
-            <p>&copy; 2024 The Barber. Todos os direitos reservados.</p>
-        </footer>
+    <footer>
+        <p>&copy; 2024 The Barber. Todos os direitos reservados.</p>
+    </footer>
+    
 </body>
 
 </html>
