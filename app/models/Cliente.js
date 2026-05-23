@@ -16,6 +16,10 @@ const User = db.define('cliente', {
         type: DataTypes.STRING,
         allownull: false //não pode estar vazio
     },
+    senha: {
+        type: DataTypes.STRING,
+        require: true,
+    }
 })
 //exportando o model
 export default User

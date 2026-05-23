@@ -11,28 +11,37 @@
 </head>
 <script>
     const toggle = document.querySelector('.nav-toggle');
-    const nav    = document.querySelector('header nav');
+    const nav = document.querySelector('header nav');
     toggle.addEventListener('click', () => {
         toggle.classList.toggle('open');
         nav.classList.toggle('open');
     });
 </script>
+
 <body>
     <header>
-    <button class="nav-toggle" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <nav>
-        <ul>
-            <li><a href="/">Início</a></li>
-            <li><a href="/contato">Contato</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/register">Cadastro</a></li>
-        </ul>
-    </nav>
-</header>
+        <button class="nav-toggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav>
+            <ul>
+                {{#if session.userId}}
+                    <li><a href="/">Início</a></l>
+                    <li><a href="/contato">Contato</a></li>
+                    <li><a href="/agendamento">Agendamento</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                {{else}}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/cadastro">Cadastro</a></li>
+                {{/if}}
+            </ul>
+        </nav>
+    </header>
+    {{#if messages.message}}
+        {{messages.message}}
+    {{/if}}
     <main>
         {{{body}}}
     </main>
@@ -40,7 +49,5 @@
     <footer>
         <p>&copy; 2024 The Barber. Todos os direitos reservados.</p>
     </footer>
-    
 </body>
-
 </html>

@@ -7,8 +7,9 @@ import authController from '../controllers/authController.js'
 
 router.get('/login', authController.login)
 router.post('/login', authController.loginPost)
-router.get('/register', authController.register)
-router.post('/register', authController.registerPost)
+router.get('/cadastro', authController.register)
+router.post('/cadastro', authController.registerPost)
+router.post('/logout', authController.logout)
 
 //exportando as rotas
 export default router
