@@ -1,5 +1,6 @@
 import express from 'express'
 const router = express.Router()
+import agendamento from '../controllers/agendamentoController.js'
 import Servicos from '../models/Servicos.js'
 
 router.get('/', async (req, res) => {
@@ -13,5 +14,7 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/agendamento', agendamento.showAgendamentos)
+router.post('/agendamento', agendamento.dashboard)
 
 export default router

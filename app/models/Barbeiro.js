@@ -12,5 +12,7 @@ const Barbeiro = db.define('barbeiro', {
         allowNull: false //não pode estar vazio
     }
 })
+/*colocar relacionamentos*/
+
 //exportando o model
 export default Barbeiro

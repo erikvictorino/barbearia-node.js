@@ -65,7 +65,7 @@ app.use(flash())
 //pasta public
 app.use(express.static('public'))
 
-
+//mandando sessões do usuario para as views
 app.use((req, res, next) => {
     if (req.session.userId) {
         res.locals.session = req.session

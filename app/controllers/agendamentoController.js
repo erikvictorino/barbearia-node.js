@@ -7,26 +7,27 @@ export default class AgendamentoController{
     }
     static async dashboard(req, res){
         const userId = req.session.userId
-        const user = await Cliente.findOne({
+        //buscando cliente no banco
+        const cliente = await Cliente.findOne({
             where: {
                 id: userId
             },
+            //pega agendamentos relacionados ao ID
             include: Agendamento,
             plain: true,
         })
 
-        if(!user){
+        if(!cliente){
             return res.redirect('/login')
         }
+
         const agendamento = cliente.Agendamento.map((result) => result.dataValues)
         console.log(agendamento)
 
         let emptyAgendamento = false
-        if(toughts.length === 0){
+        if(agendamento.length === 0){
             emptyAgendamento = true
         }
         res.render('admin/agendamento', {agendamento, emptyAgendamento})
     }
-
-    
 }

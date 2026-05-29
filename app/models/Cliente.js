@@ -21,5 +21,6 @@ const User = db.define('cliente', {
         require: true,
     }
 })
+
 //exportando o model
 export default User

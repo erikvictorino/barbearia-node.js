@@ -20,5 +20,8 @@ const Servicos = db.define('servico', {
     tableName: 'servicos',
     timestamps: true
 })
+
+/*colocar relacionamentos*/
+
 //exportando o model
 export default Servicos

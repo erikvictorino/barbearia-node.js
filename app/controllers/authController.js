@@ -1,4 +1,5 @@
 import Cliente from '../models/Cliente.js'
+//importando a biblioteca de criptografia
 import bcrypt from 'bcryptjs'
 
 export default class authController{
@@ -8,6 +9,7 @@ export default class authController{
     static async loginPost(req, res){
         const {telefone, senha} = req.body
 
+        //resgatando cliente
         const user = await Cliente.findOne({where: {telefone}})
 
         if(!user){
@@ -16,6 +18,7 @@ export default class authController{
             return
         }
 
+        //comparando senhas
         const senhaCerta = bcrypt.compareSync(senha, user.senha)
 
         if(!senhaCerta){
@@ -23,15 +26,18 @@ export default class authController{
             res.redirect('/login')
             return
         }
+
         req.session.userId = user.id
         req.flash('message', 'Logado com sucesso')
         req.session.save(() => {
             res.redirect('/')
         })
     }
+
     static register(req, res){
         res.render('auth/register')
     }
+    
     static async registerPost(req, res){
         const { nome, telefone, senha, confirma_senha} = req.body
 
