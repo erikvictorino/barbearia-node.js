@@ -14,7 +14,6 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/agendamento', agendamento.showAgendamentos)
-router.post('/agendamento', agendamento.dashboard)
+router.get('/agendamento', agendamento.dashboard)
 
 export default router
