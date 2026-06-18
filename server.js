@@ -1,3 +1,7 @@
+//importando o .env
+import dotenv from 'dotenv'
+dotenv.config()
+
 //importando framework que vai ser usado no projeto
 import express from 'express'
 //importando a template engine do projeto
@@ -82,6 +86,6 @@ conn
     //.sync({force: true})
     .sync()
     .then(() => {
-        app.listen(3000)
+        app.listen(process.env.PORT)
     })
     .catch((err) => console.log(err))
