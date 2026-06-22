@@ -1,19 +1,12 @@
 import express from 'express'
 const router = express.Router()
-import agendamento from '../controllers/agendamentoController.js'
-import Servicos from '../models/Servicos.js'
+import Agendamento from '../controllers/agendamentoController.js'
 
-router.get('/', async (req, res) => {
-    try {
-        const servicos = await Servicos.findAll({raw: true})
-        res.render('agendamento/servico', { servicos })
-        console.log(servicos)
-    } catch (error) {
-        console.log(error)
-        res.status(500).send('erro')
-    }
-})
+router.get('/', Agendamento.servicos)
+/*rota para criar o agendamento no banco
+router.post('/', Agendamento.agendamentoPost)
+*/
+router.get('/agendamento', Agendamento.dashboard)
 
-router.get('/agendamento', agendamento.dashboard)
 
 export default router

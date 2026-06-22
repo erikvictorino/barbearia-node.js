@@ -1,6 +1,8 @@
 import Cliente from '../models/Cliente.js'
 //importando a biblioteca de criptografia
 import bcrypt from 'bcryptjs'
+//importando o jwt
+import jwt from 'jsonwebtoken'
 
 export default class authController{
     static login(req, res){
@@ -12,19 +14,17 @@ export default class authController{
         //resgatando cliente
         const user = await Cliente.findOne({where: {telefone}})
 
-        if(!user){
-            req.flash('message', 'Usuario não encontrado!')
-            res.redirect('/login')
-            return
-        }
-
         //comparando senhas
         const senhaCerta = bcrypt.compareSync(senha, user.senha)
 
-        if(!senhaCerta){
-            req.flash('message', 'Senha incorreta! tente novamente')
+        if(!senhaCerta && !user){
+            req.flash('message', 'Usuario ou senha incorretos tente novamente')
             res.redirect('/login')
+            res.status(401)
             return
+        } else {
+            const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1h'})
+            res.status(201).json({message: token})
         }
 
         req.session.userId = user.id

@@ -1,7 +1,9 @@
 //importando o .env
 import dotenv from 'dotenv'
 dotenv.config()
-
+//importando jwt
+import jwt from 'jsonwebtoken'
+const SECRET_KEY = process.env.JWT_SECRET
 //importando framework que vai ser usado no projeto
 import express from 'express'
 //importando a template engine do projeto

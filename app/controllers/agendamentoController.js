@@ -1,8 +1,16 @@
 import Agendamento from '../models/Agendamento.js'
 import Cliente from '../models/Cliente.js'
-import Servico from '../models/Servicos.js'
+import Servicos from '../models/Servicos.js'
 
 export default class AgendamentoController{
+    static async servicos(req, res){
+        const servicos = await Servicos.findAll({raw: true})
+        res.render('agendamento/servico', { servicos })
+    }
+    /*este metodo vai servir para criar os agendamentos no banco
+    static async agendamentoPost(req, res){
+
+    }*/
     static async dashboard(req, res){
         const userId = req.session.userId
         if (!req.session.userId) {
@@ -19,7 +27,7 @@ export default class AgendamentoController{
                     model: Agendamento,
                     include: [
                         {
-                            model: Servico,
+                            model: Servicos,
                         }
                     ]
                 }
