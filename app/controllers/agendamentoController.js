@@ -12,8 +12,8 @@ export default class AgendamentoController{
 
     }*/
     static async dashboard(req, res){
-        const userId = req.session.userId
-        if (!req.session.userId) {
+        const userId = req.user.id
+        if (!req.user.id) {
             return res.redirect('/login')
         }
         //buscando cliente no banco

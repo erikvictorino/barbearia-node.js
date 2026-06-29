@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs'
 //importando o jwt
 import jwt from 'jsonwebtoken'
 
+
+
 export default class authController{
     static login(req, res){
         res.render('auth/login')
@@ -14,24 +16,29 @@ export default class authController{
         //resgatando cliente
         const user = await Cliente.findOne({where: {telefone}})
 
+        if(!user){
+            req.flash('message', 'Usuario ou senha incorretos tente novamente')
+            return res.redirect('/login')
+        }
         //comparando senhas
         const senhaCerta = bcrypt.compareSync(senha, user.senha)
 
-        if(!senhaCerta && !user){
+        if(!senhaCerta){
             req.flash('message', 'Usuario ou senha incorretos tente novamente')
-            res.redirect('/login')
-            res.status(401)
-            return
-        } else {
-            const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1h'})
-            res.status(201).json({message: token})
+            return res.redirect('/login')
         }
-
-        req.session.userId = user.id
+        const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1h'})
+        res.cookie(
+            'token',
+            token,
+            {
+                httpOnly: true,
+                secure: false,
+                maxAge: 3600000,
+            }
+        )
         req.flash('message', 'Logado com sucesso')
-        req.session.save(() => {
-            res.redirect('/')
-        })
+        return res.redirect('/')
     }
 
     static register(req, res){
@@ -41,18 +48,16 @@ export default class authController{
     static async registerPost(req, res){
         const { nome, telefone, senha, confirma_senha} = req.body
 
-        if(senha != confirma_senha){
+        if(senha !== confirma_senha){
             req.flash('message', 'As senhas não conferem, tente novamente')
-            res.render('auth/register')
-            return
+            return res.render('auth/register')
         }
 
         const checkIfUserExists = await Cliente.findOne({where: {telefone}})
 
         if(checkIfUserExists){
             req.flash('message', 'O telefone já está em uso')
-            res.render('auth/register')
-            return
+            return res.render('auth/register')
         }
 
         const salt = bcrypt.genSaltSync(10)
@@ -65,18 +70,27 @@ export default class authController{
         }
 
         try{
-            const criarCliente = await Cliente.create(cliente)
-            req.session.userId = criarCliente.id
-            req.flash('message', 'Cadastro realizado com sucesso')
-            req.session.save(() => {
-                res.redirect('/')
-            })
+        const novoCliente = await Cliente.create(cliente)
+        req.flash('message', 'Cadastro realizado com sucesso')
+        const token = jwt.sign({id: novoCliente.id}, process.env.JWT_SECRET, {expiresIn: '1h'})
+        res.cookie(
+            'token',
+            token,
+            {
+                httpOnly: true,
+                secure: false,
+                maxAge: 3600000,
+            }
+        )
+        return res.redirect('/')
         } catch (err){
             console.log(err)
+            req.flash('message', 'Erro ao realizar cadastro')
+            return res.redirect('/register')
         }
     }
     static logout(req, res){
-        req.session.destroy()
-        res.redirect('/login')
+        res.clearCookie('token')
+        return res.redirect('/login')
     }
 }
