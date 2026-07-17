@@ -15,13 +15,15 @@ const Servicos = db.define('servico', {
         //tipo de dado da coluna
         type: DataTypes.DECIMAL,
         allowNull: false //não pode estar vazio
+    },
+    image: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
     }, {
     tableName: 'servicos',
-    timestamps: true
+    timestamps: true,
 })
-
-/*colocar relacionamentos*/
 
 //exportando o model
 export default Servicos

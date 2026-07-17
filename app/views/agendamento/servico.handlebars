@@ -2,6 +2,7 @@
 <ul class="service-list">
     {{#each servicos}}
     <input type="hidden" name="id" value="{{this.id}}">
+        <img src="/imeg/{{this.image}}" alt="{{this.nome}}">
         <h1>{{this.nome}}</h1>
         <h2>{{this.preco}}</h2>
     {{/each}}
