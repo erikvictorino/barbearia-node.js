@@ -14,6 +14,7 @@ const sequelize = new Sequelize(
     {
     //local onde esta o banco
     host: process.env.DB_HOST,
+    port: process.env.PORT,
     //tipo de banco que esta sendo usado
     dialect: 'mysql'
 });
