@@ -63,10 +63,10 @@ app.use(checkUser)
 //pasta public
 app.use(express.static('public'))
 
-/* middleware para ROTAS
+// middleware para ROTAS
 app.use('/', authRoutes)
 app.use('/', homeRoutes)
-*/
+
 app.get('/teste', (req, res) => {
     res.send('Servidor funcionando');
 });
