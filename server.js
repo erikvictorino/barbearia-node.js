@@ -26,6 +26,11 @@ import authRoutes from './app/routes/authRoutes.js'
 //iniciando express na variavel app
 const app = express()
 
+app.use((req, res, next) => {
+    console.log("REQUISIÇÃO:", req.method, req.url);
+    next();
+});
+
 //configuração da template engine
 app.engine('handlebars', exphbs.engine())
 app.set('view engine', 'handlebars')
