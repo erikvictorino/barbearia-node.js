@@ -63,10 +63,23 @@ app.use(checkUser)
 //pasta public
 app.use(express.static('public'))
 
-// middleware para ROTAS
+/* middleware para ROTAS
 app.use('/', authRoutes)
 app.use('/', homeRoutes)
-
-app.listen(PORT, () => {
-    console.log(`servidor rodando na porta ${PORT}`)
+*/
+app.get('/teste', (req, res) => {
+    res.send('Servidor funcionando');
 });
+
+async function start(){
+    try{
+        await conn.authenticate()
+        console.log("banco conectado com sucesso")
+        app.listen(PORT, "0.0.0.0", () => {
+            console.log(`servidor rodando na porta ${PORT}`)
+        })
+    } catch(err){
+        console.log(err)
+    }
+}
+start()
