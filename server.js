@@ -1,6 +1,8 @@
 //importando o .env
 import dotenv from 'dotenv'
 dotenv.config()
+//porta onde vai rodar a aplicação
+const PORT = process.env.PORT || 3000;
 
 import cookieParser from 'cookie-parser'
 
@@ -65,11 +67,6 @@ app.use(express.static('public'))
 app.use('/', authRoutes)
 app.use('/', homeRoutes)
 
-//sincronizando os models com o banco de dados
-conn
-    //.sync({force: true})
-    .sync()
-    .then(() => {
-        app.listen(process.env.PORT)
-    })
-    .catch((err) => console.log(err))
+app.listen(PORT, () => {
+    console.log(`servidor rodando na porta ${PORT}`)
+});
