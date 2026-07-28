@@ -62,9 +62,13 @@ app.use(
 
 //ativando as flash message
 app.use(flash())
-
+app.use(checkUser)
 //pasta public
 app.use(express.static('public'))
+
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+})
 
 // middleware para ROTAS
 app.use('/', authRoutes)
@@ -77,8 +81,6 @@ app.get('/teste', (req, res) => {
 app.get('/', (req, res) => {
     res.status(200).send('API da barbearia funcionando');
 });
-
-app.use(checkUser)
 
 console.log("ANTES DO START")
 
