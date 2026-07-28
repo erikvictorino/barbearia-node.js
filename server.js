@@ -26,11 +26,6 @@ import authRoutes from './app/routes/authRoutes.js'
 //iniciando express na variavel app
 const app = express()
 
-app.use((req, res, next) => {
-    console.log("REQUISIÇÃO:", req.method, req.url);
-    next();
-});
-
 //configuração da template engine
 app.engine('handlebars', exphbs.engine())
 app.set('view engine', 'handlebars')
@@ -66,37 +61,16 @@ app.use(checkUser)
 //pasta public
 app.use(express.static('public'))
 
-app.get('/health', (req, res) => {
-    res.status(200).send('OK');
-})
-
 // middleware para ROTAS
 app.use('/', authRoutes)
 app.use('/', homeRoutes)
 
-app.get('/teste', (req, res) => {
-    res.send('Servidor funcionando');
-});
-
-app.get('/', (req, res) => {
-    res.status(200).send('API da barbearia funcionando');
-});
-
-console.log("ANTES DO START")
-
 async function start(){
-
-    console.log("ENTROU NO START")
-
     try{
         await conn.authenticate()
-
-        console.log("BANCO OK")
-
         app.listen(PORT, "0.0.0.0", () => {
             console.log(`SERVIDOR OK NA PORTA ${PORT}`)
         })
-
     } catch(err){
         console.log("ERRO:", err)
     }
