@@ -71,15 +71,23 @@ app.get('/teste', (req, res) => {
     res.send('Servidor funcionando');
 });
 
+console.log("ANTES DO START")
+
 async function start(){
+
+    console.log("ENTROU NO START")
+
     try{
         await conn.authenticate()
-        console.log("banco conectado com sucesso")
+
+        console.log("BANCO OK")
+
         app.listen(PORT, "0.0.0.0", () => {
-            console.log(`servidor rodando na porta ${PORT}`)
+            console.log(`SERVIDOR OK NA PORTA ${PORT}`)
         })
+
     } catch(err){
-        console.log(err)
+        console.log("ERRO:", err)
     }
 }
 start()
