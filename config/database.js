@@ -2,6 +2,8 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
+import mysql2 from "mysql2"
+
 //importando ORM do projeto
 import {Sequelize} from 'sequelize'
 
