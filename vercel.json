@@ -1,7 +1,7 @@
 {
   "functions": {
     "server.js": {
-      "includeFiles": "node_modules/mysql2/**"
+      "includeFiles": "{node_modules/mysql2/**,app/views/**,public/**}"
     }
   }
 }

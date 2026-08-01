@@ -2,10 +2,13 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-import mysql2 from "mysql2"
-
 //importando ORM do projeto
 import {Sequelize} from 'sequelize'
+
+//import estático "forçado" apenas para o bundler da Vercel (node-file-trace)
+//enxergar essa dependência - o Sequelize carrega o dialect dinamicamente
+//via string, o que impede a detecção automática em serverless functions
+import 'mysql2'
 
 const dbConfig = {
     //local onde esta o banco
@@ -26,7 +29,6 @@ if(useSSL){
     }
 }
 }
-
 
 //criando a conexão com banco de dados
 //com parametros, nome do banco, usuario, senha.

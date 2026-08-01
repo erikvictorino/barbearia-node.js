@@ -11,6 +11,11 @@ import checkUser from './app/middlewares/checkUser.js'
 import express from 'express'
 //importando a template engine do projeto
 import exphbs from 'express-handlebars'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 import session from 'express-session'
 
@@ -29,7 +34,7 @@ const app = express()
 //configuração da template engine
 app.engine('handlebars', exphbs.engine())
 app.set('view engine', 'handlebars')
-app.set('views', 'app/views')
+app.set('views', path.join(__dirname, 'app/views'))
 
 // configuração para receber dados do body das requisições (formulários)
 app.use(
@@ -59,7 +64,7 @@ app.use(
 app.use(flash())
 app.use(checkUser)
 //pasta public
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, 'public')))
 
 // middleware para ROTAS
 app.use('/', authRoutes)
