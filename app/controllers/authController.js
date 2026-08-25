@@ -15,8 +15,8 @@ export default class authController{
         const user = await Cliente.findOne({where: {telefone}})
 
         if(!user){
-            req.flash('message', 'Usuario ou senha incorretos tente novamente')
-            return res.redirect('/login')
+            req.flash('message', 'Usuario não encontrado')
+            return res.redirect('/cadastro')
         }
         //comparando senhas
         const senhaCerta = bcrypt.compareSync(senha, user.senha)
@@ -64,7 +64,8 @@ export default class authController{
         const cliente = {
             nome,
             telefone,
-            senha: hashedSenha
+            senha: hashedSenha,
+            tipo_usuario: "user",
         }
 
         try{

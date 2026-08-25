@@ -9,24 +9,23 @@ const User = db.define('cliente', {
     nome: {
         //tipo de dado dessa coluna
         type: DataTypes.STRING,
-        allownull: false //não pode estar vazio
+        allowNull: false //não pode estar vazio
     },
     telefone: {
         //tipo de dado dessa coluna
         type: DataTypes.STRING,
-        allownull: false //não pode estar vazio
+        allowNull: false //não pode estar vazio
     },
     senha: {
         //tipo de dado dessa coluna
         type: DataTypes.STRING,
-        allownull: false //não pode estar vazio
+        allowNull: false //não pode estar vazio
     },
     tipo_usuario: {
         //tipo de dado dessa coluna
         type: DataTypes.STRING,
-        allowNull: false //não pode estar vazio
+        allowNull: false, //não pode estar vazio
     }
 })
-
 //exportando o model
 export default User
