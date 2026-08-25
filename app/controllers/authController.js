@@ -4,8 +4,6 @@ import bcrypt from 'bcryptjs'
 //importando o jwt
 import jwt from 'jsonwebtoken'
 
-
-
 export default class authController{
     static login(req, res){
         res.render('auth/login')
@@ -70,19 +68,19 @@ export default class authController{
         }
 
         try{
-        const novoCliente = await Cliente.create(cliente)
-        req.flash('message', 'Cadastro realizado com sucesso')
-        const token = jwt.sign({id: novoCliente.id}, process.env.JWT_SECRET, {expiresIn: '1h'})
-        res.cookie(
-            'token',
-            token,
-            {
-                httpOnly: true,
-                secure: false,
-                maxAge: 3600000,
-            }
-        )
-        return res.redirect('/')
+            const novoCliente = await Cliente.create(cliente)
+            req.flash('message', 'Cadastro realizado com sucesso')
+            const token = jwt.sign({id: novoCliente.id}, process.env.JWT_SECRET, {expiresIn: '1h'})
+            res.cookie(
+                'token',
+                token,
+                {
+                    httpOnly: true,
+                    secure: false,
+                    maxAge: 3600000,
+                }
+            )
+            return res.redirect('/')
         } catch (err){
             console.log(err)
             req.flash('message', 'Erro ao realizar cadastro')

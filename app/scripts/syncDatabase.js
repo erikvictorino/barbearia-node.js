@@ -5,7 +5,7 @@ import "../models/Agendamento.js"
 import "../models/Barbeiro.js"
 import "../models/Cliente.js"
 import "../models/Servicos.js"
-//banco a conexão com o banco
+//importando a conexão com o banco
 import conn from '../../config/database.js'
 
 //sincronização do banco de dados

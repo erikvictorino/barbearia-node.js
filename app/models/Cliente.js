@@ -17,8 +17,14 @@ const User = db.define('cliente', {
         allownull: false //não pode estar vazio
     },
     senha: {
+        //tipo de dado dessa coluna
         type: DataTypes.STRING,
-        require: true,
+        allownull: false //não pode estar vazio
+    },
+    tipo_usuario: {
+        //tipo de dado dessa coluna
+        type: DataTypes.STRING,
+        allowNull: false //não pode estar vazio
     }
 })
 

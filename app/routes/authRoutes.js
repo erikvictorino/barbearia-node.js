@@ -4,9 +4,11 @@ import express from 'express'
 const router = express.Router()
 //controller de autenticação
 import authController from '../controllers/authController.js'
+//importando ratelimit
+import rateLimit from '../middlewares/rateLimit.js'
 
 router.get('/login', authController.login)
-router.post('/login', authController.loginPost)
+router.post('/login', rateLimit, authController.loginPost)
 router.get('/cadastro', authController.register)
 router.post('/cadastro', authController.registerPost)
 router.get('/logout', authController.logout)

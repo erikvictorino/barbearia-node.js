@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -31,6 +30,8 @@
                     <li><a href="/">Início</a></l>
                     <li><a href="/contato">Contato</a></li>
                     <li><a href="/agendamento">Agendamento</a></li>
+                    {{!-- <--botão de Agendamentos que só o barbeiro pode ver --!> --}}
+                    <li><a href="/agendamentosAll">Agendamentos</a></li>
                     <li><a href="/logout">Logout</a></li>
                 {{else}}
                     <li><a href="/login">Login</a></li>
@@ -45,7 +46,6 @@
     <main>
         {{{body}}}
     </main>
-
     <footer>
         <p>&copy; 2024 The Barber. Todos os direitos reservados.</p>
     </footer>

@@ -10,6 +10,11 @@ const Barbeiro = db.define('barbeiro', {
         //tipo de dado dessa coluna
         type: DataTypes.STRING,
         allowNull: false //não pode estar vazio
+    },
+    tipo_usuario: {
+        //tipo de dado dessa coluna
+        type: DataTypes.STRING,
+        allowNull: false //não pode estar vazio
     }
 })
 /*colocar relacionamentos*/

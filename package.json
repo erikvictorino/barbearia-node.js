@@ -21,6 +21,7 @@
     "express": "^5.2.1",
     "express-flash": "^0.0.2",
     "express-handlebars": "^9.0.1",
+    "express-rate-limit": "^8.6.2",
     "express-session": "^1.19.0",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.18.2",

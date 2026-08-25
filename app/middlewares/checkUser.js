@@ -17,7 +17,6 @@ async function checkUser (req, res, next){
             if(! user){
                 res.clearCookie('token')
                 return next()
-                
             }
             res.locals.user = user
         } catch (error) {
