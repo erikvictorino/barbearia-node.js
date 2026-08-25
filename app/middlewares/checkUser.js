@@ -19,6 +19,7 @@ async function checkUser (req, res, next){
                 return next()
             }
             res.locals.user = user
+            req.user = user
         } catch (error) {
             console.log(error.message)
         }
