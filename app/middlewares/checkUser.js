@@ -14,12 +14,12 @@ async function checkUser (req, res, next){
                     id: decoded.id
                 }
             })
-            if(! user){
+            if(!user){
                 res.clearCookie('token')
                 return next()
             }
             res.locals.user = user
-            req.user = user
+            res.locals.isAdmin = user.tipo_usuario === 'admin'
         } catch (error) {
             console.log(error.message)
         }

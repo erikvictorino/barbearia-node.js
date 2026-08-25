@@ -28,12 +28,15 @@
             <ul>
                 {{#if user}}
                     <li><a href="/">Início</a></l>
-                    <li><a href="/contato">Contato</a></li>
-                    <li><a href="/agendamento">Agendamento</a></li>
+                  {{#if isAdmin}}
                     {{!-- <--botão de Agendamentos que só o barbeiro pode ver --!> --}}
                     <li><a href="/agendamentosAll">Agendamentos</a></li>
+                  {{else}}
+                    <li><a href="/contato">Contato</a></li>
+                    <li><a href="/agendamento">Agendamento</a></li>
+                  {{/if}}
                     <li><a href="/logout">Logout</a></li>
-                {{else}}
+                  {{else}}
                     <li><a href="/login">Login</a></li>
                     <li><a href="/cadastro">Cadastro</a></li>
                 {{/if}}
