@@ -5,6 +5,7 @@ import "../models/Agendamento.js"
 import "../models/Barbeiro.js"
 import "../models/Cliente.js"
 import "../models/Servicos.js"
+import "../models/resetPassToken.js"
 //importando a conexão com o banco
 import conn from '../../config/database.js'
 
