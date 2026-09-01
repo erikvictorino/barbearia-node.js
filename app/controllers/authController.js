@@ -81,13 +81,11 @@ export default class authController{
                 `
                 <h2> Olá, ${user.name}</h2>
                 <p>Você solicitou redefinição de senha. Clique no link abaixo para redefinir: </p>
-                <a href="http://localhost:${process.env.PORT}/reset-password/${resetToken}">
+                <a href="${process.env.API_URL}/reset-password/${resetToken}">
                     Redefinir minha senha
                 </a>
                 <p>Esse link expira em 15 minutos.</p>
                 `,
-                console.log('RESET TOKEN:', resetToken),
-                console.log('LINK:', `http://localhost:${process.env.PORT}/reset-password/${resetToken}`)
             )
             req.flash('message', 'Email enviado com sucesso')
             return res.redirect('/redefinir')
@@ -107,7 +105,6 @@ export default class authController{
     static async resetPasswordPost(req, res){
         //pegando o token pela URL
         const token = req.params.token
-        console.log('TOKEN:', token)
         //pegando a nova senha do usuario
         const {novaSenha, confirmarNovaSenha} = req.body
 
@@ -132,10 +129,13 @@ export default class authController{
             await resetPass.destroy({
                 where: {id: resetToken.id}
             })
-            return req.flash('message', 'Senha atualizada com sucesso')
+            console.log('4 - token deletado')
+            req.flash('message', 'Senha atualizada com sucesso')
+            return res.redirect('/')
         } catch (error) {
             console.log(error)
-            return req.flash('message', 'Erro interno')
+            req.flash('message', 'Erro interno')
+            return res.redirect('/')
         }
     }
 
