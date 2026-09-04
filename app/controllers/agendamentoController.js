@@ -1,3 +1,4 @@
+import { where } from 'sequelize'
 import Agendamento from '../models/Agendamento.js'
 import Cliente from '../models/Cliente.js'
 import Servicos from '../models/Servicos.js'
@@ -63,31 +64,29 @@ export default class AgendamentoController{
             emptyAgendamento = true
         }
         */
-        res.render('admin/agendamentos', {agendamento})
+        res.render('agendamento/agendamento', {agendamento})
     }
 
-    /*
-    este metodo vai servir para o barbeiro ver todos os agendamentos 
-        static sync agendamentoAll(req, res){
+    //este metodo vai servir para o barbeiro ver todos os agendamentos 
+        static async agendamentoAll(req, res){
             const userId = req.user.id
             if(!req.user.id){
                 return res.redirect('/login')
             }
-            
-            const agendamentoAll = await Agendamento.findAll({
+            const todosAgendamentos = await Agendamento.findAll({
                 include: [
-                    {
-                        model: Agendamento,
-                        include: [
-                            {
-                                model: Servicos,
-                            }
-                        ]
-                    }
-                ]
+                        {
+                            model: Cliente,
+                        }
+                    ],
+                    include: [
+                        {
+                            model: Servicos,
+                        }
+                    ]
             })
-            const agendamentoAll = cliente.agendamentos.map((resukt => result.get({plain: true})))
+            const agendamentoAll = todosAgendamentos.map((result) => result.get({plain: true}))
+            console.log(agendamentoAll)
             res.render('admin/agendamentosAll', {agendamentoAll})
         }
-    */
 }

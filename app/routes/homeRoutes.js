@@ -8,10 +8,8 @@ router.get('/', Agendamento.servicos)
 /*rota para criar o agendamento no banco
 router.post('/', checkToken, Agendamento.agendamentoPost)
 */
-/*
-rota para o adm ver todos os agendamentos
-router.get('/agendamentosAll, checkToken, authorizeRoles("admin"), Agendamento.agendamentoAll)
-*/
+//rota para o adm ver todos os agendamentos
+router.get('/agendamentosAll', checkToken, authorizeRoles("admin"), Agendamento.agendamentoAll)
 router.get('/agendamento', checkToken, Agendamento.dashboard)
 
 export default router

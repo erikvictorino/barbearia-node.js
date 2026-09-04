@@ -1,1 +1,17 @@
 aqui vai estar todos os agendamentos que o barbeiro vai ver
+{{#each agendamentoAll}}
+<h1>{{this.clienteId}}</h1>
+<h2>Agendamento {{this.id}}</h2>
+
+<p><strong>Data:</strong> {{this.data}}</p>
+<p><strong>Hora:</strong> {{this.hora}}</p>
+<p><strong>Status:</strong> {{this.status}}</p>
+
+<h3>serviço</h3>
+    {{#each this.servicos}}
+        <div class="servico">
+            <p>Nome: {{this.nome}}</p>
+            <p>Preço: R${{this.preco}}</p>
+        </div>
+    {{/each}}
+{{/each}}

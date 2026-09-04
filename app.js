@@ -27,6 +27,7 @@ import conn from './config/database.js'
 //importando as rotas
 import homeRoutes from './app/routes/homeRoutes.js'
 import authRoutes from './app/routes/authRoutes.js'
+import servicoRoutes from './app/routes/servicoRoutes.js'
 
 //iniciando express na variavel app
 const app = express()
@@ -69,6 +70,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 // middleware para ROTAS
 app.use('/', authRoutes)
 app.use('/', homeRoutes)
+app.use('/', servicoRoutes)
 
 async function start(){
     await conn.authenticate()

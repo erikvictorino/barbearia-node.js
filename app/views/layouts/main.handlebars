@@ -16,7 +16,6 @@
         nav.classList.toggle('open');
     });
 </script>
-
 <body>
     <header>
         <button class="nav-toggle" aria-label="Menu">
@@ -31,6 +30,7 @@
                   {{#if isAdmin}}
                     {{!-- <--botão de Agendamentos que só o barbeiro pode ver --!> --}}
                     <li><a href="/agendamentosAll">Agendamentos</a></li>
+                    <li><a href="/addServico">Adicionar serviço</a></li>
                   {{else}}
                     <li><a href="/contato">Contato</a></li>
                     <li><a href="/agendamento">Agendamento</a></li>
