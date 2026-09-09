@@ -9,6 +9,6 @@ router.get('/addServico', checkToken, authorizeRoles('admin'), Servico.addServic
 //router.post('/addServico', upload.single("image"), Servico.addServicoPost)
 
 router.get('/editServico/:id', checkToken, authorizeRoles('admin'), Servico.editServico)
-//router.post('/editServico', upload.single("image"), Servico.editServicoPost)
+router.post('/editServico', upload.single("image"), Servico.editServicoPost)
 
 export default router
