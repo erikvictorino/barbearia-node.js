@@ -5,6 +5,7 @@
         <img src="/imeg/{{this.image}}" alt="{{this.nome}}">
         <h1>{{this.nome}}</h1>
         <h2>{{this.preco}}</h2>
+        {{#if ../isAdmin}}<a href="/editServico/{{this.id}}">Editar</a>{{/if}}
     {{/each}}
 </ul>
 {{!-- colocar o codigo dentro de um form post e um botao(type=submit) de agendamento 

@@ -1,1 +1,19 @@
 edição de dados do serviço
+<h1>Edite o Serviço:</h1>
+<form action="/editServico" method="post" class="form" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{{servico.id}}">
+    <div class="form-control">
+        <label for="imagem">Imagem</label>
+        <img src="/imeg/{{servico.image}}" alt="{{servico.nome}}">
+        <input type="file" name="image" placeholder="Imagem do Serviço" value="{{servico.image}}">
+    </div>
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o nome" value="{{servico.nome}}">
+    </div>
+    <div class="form-control">
+        <label for="price">Preço:</label>
+        <input type="number" name="price" placeholder="Digite o preço" value="{{servico.preco}}">
+    </div>
+    <input type="submit" value="editar">
+</form>

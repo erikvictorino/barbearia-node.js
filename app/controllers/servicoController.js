@@ -8,8 +8,11 @@ export default class servicoController{
 
 
 
-    static editServico(req, res){
-        res.render('admin/editServico')
+    static async editServico(req, res){
+        const id = req.params.id
+        const servico = await Servico.findOne({raw: true, where: {id:id}})
+        console.log(servico)
+        res.render('admin/editServico', {servico})
     }
 
 }

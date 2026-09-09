@@ -1,1 +1,17 @@
 formulario pra criar serviço
+<title>Cadastro</title>
+<form action="/addServico" method="post" class="form" enctype="multipart/form-data">
+    <div class="form-control">
+        <label for="imagem">Imagem</label>
+        <input type="file" name="image" placeholder="Imagem do Lanche">
+    </div>
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="digite o nome do hamburguer">
+    </div>
+    <div class="form-control">
+        <label for="price">Preço:</label>
+        <input type="number" name="price" placeholder="digite o preço do hamburguer">
+    </div>
+    <input type="submit" value="cadastrar">
+</form>
