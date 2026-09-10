@@ -1,12 +1,24 @@
-import express from "express";
 import Servico from '../models/Servicos.js'
 
 export default class servicoController{
     static addServico(req, res){
         res.render('admin/addServico')
     }
-
-
+    static async addServicoPost(req, res){
+        const data = {
+            nome: req.body.nome, 
+            preco: req.body.preco, 
+            image: req.file.filename
+        }
+        console.log(data)
+        try {
+            const servico = await Servico.create(data)
+            req.flash('message', 'Serviço adicionado com sucesso')
+            res.redirect('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     static async editServico(req, res){
         const id = req.params.id
@@ -15,8 +27,11 @@ export default class servicoController{
     }
 
     static async editServicoPost(req, res){
-        const {id, nome, preco, image} = req.body
-        const data = {nome, preco, image}
+        const data = {
+            nome: req.body,
+            preco: req.body, 
+            image: req.file.filename
+        }
         try {
             const servico = await Servico.update(data,{where: {id}})
             req.flash('message', 'Serviço atualizado com sucesso')
@@ -24,6 +39,13 @@ export default class servicoController{
         } catch (error) {
             console.log(error)
         }
+    }
+
+    static async deleteServico(req, res){
+        const id = req.body.id
+        await Servico.destroy({where: {id: id}})
+        req.flash('message', 'Serviço excluido com sucesso')
+        res.redirect('/')
     }
 
 }
