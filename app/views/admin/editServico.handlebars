@@ -1,6 +1,7 @@
 edição de dados do serviço
 <h1>Edite o Serviço:</h1>
-<form action="/editServico" method="post" class="form" enctype="multipart/form-data">
+<div class="form">
+    <form action="/editServico" method="post" enctype="multipart/form-data">
     <input type="hidden" name="id" value="{{servico.id}}">
     <div class="form-control">
         <label for="imagem">Imagem</label>
@@ -17,7 +18,8 @@ edição de dados do serviço
     </div>
     <input type="submit" value="editar">
 </form>
-<form action="/editServico/delete" method="post" class="form">
+<form action="/editServico/delete" method="post">
     <input type="hidden" name="id" value="{{servico.id}}">
-        <input type="submit" value="Excluir">
-    </form>
+    <input type="submit" value="Excluir">
+</form>
+</div>

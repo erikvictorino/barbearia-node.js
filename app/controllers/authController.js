@@ -79,7 +79,7 @@ export default class authController{
                 "Redefinição de senha",
                 //html para redefinição de senha
                 `
-                <h2> Olá, ${user.name}</h2>
+                <h2> Olá, ${user.nome}</h2>
                 <p>Você solicitou redefinição de senha. Clique no link abaixo para redefinir: </p>
                 <a href="${process.env.API_URL}/reset-password/${resetToken}">
                     Redefinir minha senha

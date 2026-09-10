@@ -29,8 +29,10 @@ export default class servicoController{
     static async editServicoPost(req, res){
         const data = {
             nome: req.body,
-            preco: req.body, 
-            image: req.file.filename
+            preco: req.body,
+        }
+        if(req.file){
+           data = {image: req.file.filename}
         }
         try {
             const servico = await Servico.update(data,{where: {id}})
