@@ -32,6 +32,11 @@ if(useSSL){
 }
 }
 
+console.log('DB_HOST:', process.env.DB_HOST)
+console.log('DB_PORT:', process.env.DB_PORT)
+console.log('DB_SSL:', process.env.DB_SSL)
+console.log('SSL config:', JSON.stringify(dbConfig.dialectOptions))
+
 //criando a conexão com banco de dados
 //com parametros, nome do banco, usuario, senha.
 const sequelize = new Sequelize(
