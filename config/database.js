@@ -25,7 +25,7 @@ if(useSSL){
     dbConfig.dialectOptions = {
     ssl: {
         require: true,
-        rejectUnauthorized: false
+        rejectUnauthorized: true
     }
 }
 }
