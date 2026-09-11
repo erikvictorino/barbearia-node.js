@@ -1,3 +1,4 @@
+import fs from 'fs'
 //importando o .env
 import dotenv from 'dotenv'
 dotenv.config()
@@ -25,7 +26,8 @@ if(useSSL){
     dbConfig.dialectOptions = {
     ssl: {
         require: true,
-        rejectUnauthorized: true
+        rejectUnauthorized: false,
+        ca: fs.readFileSync(process.env.DB_CA_CERT_PATH).toString()
     }
 }
 }
