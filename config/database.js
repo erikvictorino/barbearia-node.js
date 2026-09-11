@@ -31,8 +31,12 @@ if(useSSL){
     }
 }
 }
-console.log('useSSL:', useSSL)
-console.log('dialectOptions final:', JSON.stringify(dbConfig.dialectOptions))
+const raw = process.env.DB_CA_CERT
+console.log('CA length:', raw?.length)
+console.log('Contém quebra de linha real:', raw?.includes('\n'))
+console.log('Contém \\n literal (texto):', raw?.includes('\\n'))
+console.log('Começa com BEGIN CERTIFICATE:', raw?.startsWith('-----BEGIN CERTIFICATE-----'))
+console.log('Termina com END CERTIFICATE:', raw?.trim().endsWith('-----END CERTIFICATE-----'))
 //criando a conexão com banco de dados
 //com parametros, nome do banco, usuario, senha.
 const sequelize = new Sequelize(
