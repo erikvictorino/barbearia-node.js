@@ -27,7 +27,7 @@ if(useSSL){
     ssl: {
         require: true,
         rejectUnauthorized: false,
-        ca: fs.readFileSync(process.env.DB_CA_CERT_PATH).toString()
+        ca: process.env.DB_CA_CERT
     }
 }
 }
