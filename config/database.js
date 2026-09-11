@@ -31,7 +31,8 @@ if(useSSL){
     }
 }
 }
-
+console.log('useSSL:', useSSL)
+console.log('dialectOptions final:', JSON.stringify(dbConfig.dialectOptions))
 //criando a conexão com banco de dados
 //com parametros, nome do banco, usuario, senha.
 const sequelize = new Sequelize(
