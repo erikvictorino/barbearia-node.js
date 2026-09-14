@@ -19,8 +19,11 @@ const Servicos = db.define('servico', {
     image: {
         type: DataTypes.STRING,
         allowNull: false
-    }
-    }, {
+    },
+    duracao: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     tableName: 'servicos',
     timestamps: true,
 })

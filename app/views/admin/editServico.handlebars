@@ -16,6 +16,10 @@ edição de dados do serviço
         <label for="price">Preço:</label>
         <input type="number" name="preco" placeholder="Digite o preço" value="{{servico.preco}}">
     </div>
+    <div class="form-control">
+        <label for="duracao">Duração:</label>
+        <input type="number" name="duracao" placeholder="digite a duração do serviço" value="{{servico.duracao}}">
+    </div>
     <input type="submit" value="editar">
 </form>
 <form action="/editServico/delete" method="post">
