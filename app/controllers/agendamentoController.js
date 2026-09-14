@@ -5,8 +5,12 @@ import Servicos from '../models/Servicos.js'
 
 export default class AgendamentoController{
     static async servicos(req, res){
-        const servicos = await Servicos.findAll({raw: true})
-        res.render('agendamento/servico', { servicos })
+        try {
+            const servicos = await Servicos.findAll({raw: true})
+            return res.render('agendamento/servico', { servicos })
+        } catch (error) {
+            console.log(error)
+        }
     }
     /*este metodo vai servir para criar os agendamentos no banco
     static async agendamentoPost(req, res){

@@ -24,9 +24,11 @@ const Servicos = db.define('servico', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+},
+{
     tableName: 'servicos',
     timestamps: true,
-})
+});
 
 //exportando o model
 export default Servicos
