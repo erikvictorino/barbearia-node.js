@@ -5,6 +5,7 @@ import checkToken from '../middlewares/checkToken.js'
 import authorizeRoles from '../middlewares/checkFuncao.js'
 
 router.get('/', Agendamento.servicos)
+router.post('/', checkToken, Agendamento.agendamentoPost)
 /*rota para criar o agendamento no banco
 router.post('/', checkToken, Agendamento.agendamentoPost)
 */
