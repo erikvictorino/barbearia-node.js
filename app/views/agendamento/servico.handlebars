@@ -1,13 +1,58 @@
-<h1>serviços do the</h1>
-<ul class="service-list">
-    {{#each servicos}}
-    <input type="hidden" name="id" value="{{this.id}}">
-        <img src="/imeg/{{this.image}}" alt="{{this.nome}}">
-        <h1>{{this.nome}}</h1>
-        <h2>{{this.preco}}</h2>
-        {{#if ../isAdmin}}<a href="/editServico/{{this.id}}">Editar</a>{{/if}}
-    {{/each}}
-</ul>
-{{!-- colocar o codigo dentro de um form post e um botao(type=submit) de agendamento 
-deixar os agendamentos clicaveis
---}}
+
+
+<div class="agendamento-page">
+    <h1 class="page-title">Serviços do The Barber</h1>
+    <p class="page-subtitle">Escolha o serviço, a data e o horário para agendar seu atendimento</p>
+
+    <form class="form agendamento-form" action="/" method="POST" autocomplete="off" id="agendamentoForm">
+
+        <label class="section-label">1. Escolha o serviço</label>
+        <ul class="service-list">
+            {{#each servicos}}
+            <li class="service-item">
+                <label class="service-card" for="servico-{{this.id}}">
+                    <input
+                        type="radio"
+                        name="id"
+                        id="servico-{{this.id}}"
+                        value="{{this.id}}"
+                        class="service-radio"
+                        required
+                    >
+                    <span class="service-card-inner">
+                        <img src="/imeg/{{this.image}}" alt="{{this.nome}}">
+                        <h1>{{this.nome}}</h1>
+                        <h2>R$ {{this.preco}}</h2>
+                        {{#if ../isAdmin}}
+                        <a href="/editServico/{{this.id}}" class="edit-link" onclick="event.stopPropagation()">Editar</a>
+                        {{/if}}
+                    </span>
+                    <span class="check-badge">&#10003;</span>
+                </label>
+            </li>
+            {{/each}}
+        </ul>
+
+        <label class="section-label">2. Escolha a data</label>
+        <div class="calendar-card" id="calendarCard">
+            <div class="calendar-header">
+                <button type="button" class="calendar-nav" id="prevMonth" aria-label="Mês anterior">&#8249;</button>
+                <span class="calendar-month" id="calendarMonthLabel"></span>
+                <button type="button" class="calendar-nav" id="nextMonth" aria-label="Próximo mês">&#8250;</button>
+            </div>
+            <div class="calendar-weekdays">
+                <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+        <input type="hidden" name="data" id="dataInput">
+
+        <label class="section-label">3. Escolha o horário</label>
+        <div class="time-slots" id="timeSlots"></div>
+        <input type="hidden" name="hora" id="horaInput">
+
+        <p class="form-error" id="formError"></p>
+
+        <input type="submit" value="Agendar" class="btn-agendar" id="submitBtn" disabled>
+    </form>
+</div>
