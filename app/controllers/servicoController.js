@@ -33,7 +33,7 @@ export default class servicoController{
     }
 
     static async editServicoPost(req, res){
-        const id = req.params.id
+        const id = req.body.id
         const data = {
             nome: req.body.nome,
             preco: req.body.preco,
