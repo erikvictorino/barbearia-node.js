@@ -1,14 +1,20 @@
 import multer from 'multer'
-import path from 'path'
+import cloudinary from '../../config/cloudinary.js'
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb){
-        cb(null, "public/imeg")
-    },
-    filename: function (req, file, cb){
-        cb(null, file.originalname + path.extname(file.originalname))
+const storage = multer.memoryStorage({})
+const upload = multer({
+    storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024,
     }
 })
-const upload = multer({storage})
-
 export default upload
+
+export function uploadToCloudinary(buffer, folder = 'uploads') {
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.upload_stream({ folder }, (error, result) => {
+            if (error) return reject(error)
+            resolve(result)
+        }).end(buffer)
+    })
+}

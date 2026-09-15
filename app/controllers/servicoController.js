@@ -1,22 +1,28 @@
 import Servico from '../models/Servicos.js'
-
+import { uploadToCloudinary } from '../middlewares/upload.js'
 export default class servicoController{
     static addServico(req, res){
         res.render('admin/addServico')
     }
     static async addServicoPost(req, res){
-        const data = {
+        if(!req.file){
+            return res.status(400).json({sucess: false, message: "Selecione uma imagem"})
+        }
+        try {
+            const result = await uploadToCloudinary(req.file.buffer)
+            const data = {
             nome: req.body.nome, 
             preco: req.body.preco, 
-            image: req.file.filename
+            image: result.secure_url,
+            duracao: req.body.duracao
         }
-        console.log(data)
-        try {
+
             const servico = await Servico.create(data)
             req.flash('message', 'Serviço adicionado com sucesso')
             res.redirect('/')
         } catch (error) {
             console.log(error)
+            return res.status(500).json({message: 'Erro ao adicionar serviço'})
         }
     }
 
@@ -27,19 +33,24 @@ export default class servicoController{
     }
 
     static async editServicoPost(req, res){
+        const id = req.params.id
         const data = {
-            nome: req.body,
-            preco: req.body,
+            nome: req.body.nome,
+            preco: req.body.preco,
+            duracao: req.body.duracao
         }
-        if(req.file){
-           data = {image: req.file.filename}
-        }
+        
         try {
+            if(req.file){
+                const result = await uploadToCloudinary(req.file.buffer)
+                data.image = result.secure_url
+        }
             const servico = await Servico.update(data,{where: {id}})
             req.flash('message', 'Serviço atualizado com sucesso')
             res.redirect('/')
         } catch (error) {
             console.log(error)
+            return res.status(500).json({message: 'Erro ao atualizar serviço'})
         }
     }
 
