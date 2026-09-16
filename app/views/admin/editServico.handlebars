@@ -5,7 +5,7 @@ edição de dados do serviço
     <input type="hidden" name="id" value="{{servico.id}}">
     <div class="form-control">
         <label for="imagem">Imagem</label>
-        <img src="/imeg/{{servico.image}}" alt="{{servico.nome}}">
+        <img src="{{servico.image}}" alt="{{servico.nome}}">
         <input type="file" name="image" placeholder="Imagem do Serviço" value="{{servico.image}}">
     </div>
     <div class="form-control">
@@ -15,6 +15,10 @@ edição de dados do serviço
     <div class="form-control">
         <label for="price">Preço:</label>
         <input type="number" name="preco" placeholder="Digite o preço" value="{{servico.preco}}">
+    </div>
+    <div class="form-control">
+        <label for="duracao">Duração:</label>
+        <input type="number" name="duracao" placeholder="digite a duração do serviço" value="{{servico.duracao}}">
     </div>
     <input type="submit" value="editar">
 </form>
