@@ -4,25 +4,6 @@ import Cliente from '../models/Cliente.js'
 import Servicos from '../models/Servicos.js'
 
 export default class AgendamentoController{
-static async servicos(req, res) {
-    try {
-        const servicos = await Servicos.findAll({ raw: true })
-
-        console.log('🔥 VERSÃO NOVA DA ROTA /')
-        console.log('SERVIÇOS:', servicos)
-
-        return res.render('agendamento/servico', {
-            servicos,
-            versao: 'NOVA-16092026'
-        })
-
-    } catch (error) {
-        console.log('ERRO:', error)
-    }
-}
-
-
-    /*
     static async servicos(req, res){
         try {
             const servicos = await Servicos.findAll({raw: true})
