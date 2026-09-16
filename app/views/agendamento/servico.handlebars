@@ -1,12 +1,19 @@
-
-
 <div class="agendamento-page">
     <h1 class="page-title">Serviços do The Barber</h1>
     <p class="page-subtitle">Escolha o serviço, a data e o horário para agendar seu atendimento</p>
 
-    <form class="form agendamento-form" action="/" method="POST" autocomplete="off" id="agendamentoForm">
+    <form
+        class="form agendamento-form"
+        action="/"
+        method="POST"
+        autocomplete="off"
+        id="agendamentoForm"
+        data-tem-servicos="{{#if temServicos}}true{{else}}false{{/if}}"
+    >
 
-        <label class="section-label">1. Escolha o serviço</label>
+        <label class="section-label">1. Escolha o serviço {{#unless temServicos}}<span class="label-opcional">(opcional)</span>{{/unless}}</label>
+
+        {{#if temServicos}}
         <ul class="service-list">
             {{#each servicos}}
             <li class="service-item">
@@ -20,7 +27,9 @@
                         required
                     >
                     <span class="service-card-inner">
-                        <img src="{{this.image}}" alt="{{this.nome}}">
+                        {{#if this.image}}
+                        <img src="/imeg/{{this.image}}" alt="{{this.nome}}">
+                        {{/if}}
                         <h1>{{this.nome}}</h1>
                         <h2>R$ {{this.preco}}</h2>
                         {{#if ../isAdmin}}
@@ -32,6 +41,15 @@
             </li>
             {{/each}}
         </ul>
+        {{else}}
+        <div class="service-empty">
+            <p>Nenhum serviço cadastrado no momento.</p>
+            <span>Você pode continuar e escolher normalmente a data e o horário do seu corte.</span>
+            {{#if isAdmin}}
+            <a href="/addServico" class="empty-link">Cadastrar serviço</a>
+            {{/if}}
+        </div>
+        {{/if}}
 
         <label class="section-label">2. Escolha a data</label>
         <div class="calendar-card" id="calendarCard">
@@ -45,11 +63,11 @@
             </div>
             <div class="calendar-grid" id="calendarGrid"></div>
         </div>
-        <input type="hidden" name="data" id="dataInput">
+        <input type="hidden" name="data" id="dataInput" required>
 
         <label class="section-label">3. Escolha o horário</label>
         <div class="time-slots" id="timeSlots"></div>
-        <input type="hidden" name="hora" id="horaInput">
+        <input type="hidden" name="hora" id="horaInput" required>
 
         <p class="form-error" id="formError"></p>
 

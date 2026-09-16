@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.getElementById('submitBtn')
     const formError = document.getElementById('formError')
 
+    // quando não há serviços cadastrados, a escolha de serviço vira opcional
+    const radios = form.querySelectorAll('.service-radio')
+    const temServicos = form.getAttribute('data-tem-servicos') === 'true' && radios.length > 0
+
     const meses = [
         'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
         'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
@@ -43,9 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (formError) formError.textContent = ''
     }
 
+    function servicoValido() {
+        if (!temServicos) return true
+        return Boolean(form.querySelector('.service-radio:checked'))
+    }
+
     function atualizarBotaoSubmit() {
-        const servicoSelecionado = form.querySelector('.service-radio:checked')
-        const habilitar = Boolean(servicoSelecionado) && Boolean(dataInput.value) && Boolean(horaInput.value)
+        const habilitar = servicoValido() && Boolean(dataInput.value) && Boolean(horaInput.value)
         submitBtn.disabled = !habilitar
         if (habilitar) limparErro()
     }
@@ -152,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
-    form.querySelectorAll('.service-radio').forEach((radio) => {
+    radios.forEach((radio) => {
         radio.addEventListener('change', () => {
             limparErro()
             atualizarBotaoSubmit()
@@ -160,11 +168,20 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     form.addEventListener('submit', (evento) => {
-        const servicoSelecionado = form.querySelector('.service-radio:checked')
-        if (!servicoSelecionado || !dataInput.value || !horaInput.value) {
+        if (!servicoValido()) {
             evento.preventDefault()
-            if (formError) formError.textContent = 'Selecione o serviço, a data e o horário antes de agendar.'
+            if (formError) formError.textContent = 'Selecione um serviço antes de agendar.'
+            return
         }
+
+        if (!dataInput.value || !horaInput.value) {
+            evento.preventDefault()
+            if (formError) formError.textContent = 'Selecione a data e o horário antes de agendar.'
+            return
+        }
+
+        submitBtn.disabled = true
+        submitBtn.value = 'Agendando...'
     })
 
     renderizarCalendario()
