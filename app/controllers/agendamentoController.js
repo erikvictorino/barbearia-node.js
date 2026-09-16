@@ -7,6 +7,10 @@ export default class AgendamentoController{
     static async servicos(req, res){
         try {
             const servicos = await Servicos.findAll({raw: true})
+            console.log('================================')
+        console.log('ROTA / FOI EXECUTADA')
+        console.log('SERVIÇOS:', servicos)
+        console.log('================================')
             return res.render('agendamento/servico', { servicos })
         } catch (error) {
             console.log(error)
