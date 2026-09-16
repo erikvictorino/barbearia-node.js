@@ -135,7 +135,7 @@ export default class authController{
                 where: {id: resetToken.id}
             })
             req.flash('message', 'Senha atualizada com sucesso')
-            return res.redirect('/login')
+            return res.redirect(`${process.env.API_URL}` || "/login")
         } catch (error) {
             console.log(error)
             req.flash('message', 'Erro interno')
