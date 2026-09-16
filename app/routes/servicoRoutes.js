@@ -6,10 +6,10 @@ import authorizeRoles from '../middlewares/checkFuncao.js'
 import upload from '../middlewares/upload.js'
 
 router.get('/addServico', checkToken, authorizeRoles('admin'), Servico.addServico)
-router.post('/addServico', checkToken, authorizeRoles('admin'), upload.single("image"), Servico.addServicoPost)
+router.post('/addServico', upload.single("image"), Servico.addServicoPost)
 
 router.get('/editServico/:id', checkToken, authorizeRoles('admin'), Servico.editServico)
-router.post('/editServico', checkToken, authorizeRoles('admin'), upload.single("image"), Servico.editServicoPost)
-router.post('/editServico/delete', checkToken, authorizeRoles('admin'), Servico.deleteServico)
+router.post('/editServico', upload.single("image"), Servico.editServicoPost)
+router.post('/editServico/delete', Servico.deleteServico)
 
 export default router

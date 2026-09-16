@@ -1,85 +1,64 @@
 import Servico from '../models/Servicos.js'
-
+import { uploadToCloudinary } from '../middlewares/upload.js'
 export default class servicoController{
-
     static addServico(req, res){
         res.render('admin/addServico')
     }
-
     static async addServicoPost(req, res){
-        const data = {
-            nome: req.body.nome,
-            preco: req.body.preco,
-            image: req.file ? req.file.filename : null
+        if(!req.file){
+            return res.status(400).json({sucess: false, message: "Selecione uma imagem"})
         }
-
-        if(!data.nome || !data.preco || !data.image){
-            req.flash('message', 'Preencha nome, preço e imagem do serviço')
-            return res.redirect('/addServico')
-        }
-
         try {
-            await Servico.create(data)
+            const result = await uploadToCloudinary(req.file.buffer)
+            const data = {
+            nome: req.body.nome, 
+            preco: req.body.preco, 
+            image: result.secure_url,
+            duracao: req.body.duracao
+        }
+
+            const servico = await Servico.create(data)
             req.flash('message', 'Serviço adicionado com sucesso')
-            return res.redirect('/')
+            res.redirect('/')
         } catch (error) {
-            console.log('Erro ao adicionar serviço:', error.message)
-            req.flash('message', 'Erro ao adicionar serviço')
-            return res.redirect('/addServico')
+            console.log(error)
+            return res.status(500).json({message: 'Erro ao adicionar serviço'})
         }
     }
 
     static async editServico(req, res){
         const id = req.params.id
-        const servico = await Servico.findOne({ raw: true, where: { id: id } })
-
-        if(!servico){
-            req.flash('message', 'Serviço não encontrado')
-            return res.redirect('/')
-        }
-
-        return res.render('admin/editServico', { servico })
+        const servico = await Servico.findOne({raw: true, where: {id:id}})
+        res.render('admin/editServico', {servico})
     }
 
     static async editServicoPost(req, res){
         const id = req.body.id
-
-        if(!id){
-            req.flash('message', 'Serviço inválido')
-            return res.redirect('/')
-        }
-
         const data = {
             nome: req.body.nome,
             preco: req.body.preco,
+            duracao: req.body.duracao
         }
-
-        if(req.file){
-            data.image = req.file.filename
-        }
-
+        
         try {
-            await Servico.update(data, { where: { id: id } })
+            if(req.file){
+                const result = await uploadToCloudinary(req.file.buffer)
+                data.image = result.secure_url
+        }
+            const servico = await Servico.update(data,{where: {id}})
             req.flash('message', 'Serviço atualizado com sucesso')
-            return res.redirect('/')
+            res.redirect('/')
         } catch (error) {
-            console.log('Erro ao atualizar serviço:', error.message)
-            req.flash('message', 'Erro ao atualizar serviço')
-            return res.redirect('/')
+            console.log(error)
+            return res.status(500).json({message: 'Erro ao atualizar serviço'})
         }
     }
 
     static async deleteServico(req, res){
         const id = req.body.id
-
-        try {
-            await Servico.destroy({ where: { id: id } })
-            req.flash('message', 'Serviço excluido com sucesso')
-            return res.redirect('/')
-        } catch (error) {
-            console.log('Erro ao excluir serviço:', error.message)
-            req.flash('message', 'Erro ao excluir serviço')
-            return res.redirect('/')
-        }
+        await Servico.destroy({where: {id: id}})
+        req.flash('message', 'Serviço excluido com sucesso')
+        res.redirect('/')
     }
+
 }
