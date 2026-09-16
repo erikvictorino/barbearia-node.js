@@ -1,15 +1,35 @@
-{{#each agendamento}}
-<h2>Agendamento #{{this.id}}</h2>
+<div class="agendamento-page">
+    <h1 class="page-title">Meus Agendamentos</h1>
+    <p class="page-subtitle">Acompanhe abaixo os seus horários marcados no The Barber</p>
 
-<p><strong>Data:</strong> {{this.data}}</p>
-<p><strong>Hora:</strong> {{this.hora}}</p>
-<p><strong>Status:</strong> {{this.status}}</p>
+    <div class="agendamento-lista">
+        {{#if agendamento.length}}
+            {{#each agendamento}}
+            <div class="agendamento-card">
+                <div class="agendamento-card-header">
+                    <h2>Agendamento #{{this.id}}</h2>
+                    <span class="status-badge">{{this.status}}</span>
+                </div>
 
-<h3>serviço</h3>
-    {{#each this.servicos}}
-        <div class="servico">
-            <p>Nome: {{this.nome}}</p>
-            <p>Preço: R${{this.preco}}</p>
-        </div>
-    {{/each}}
-{{/each}}
+                <div class="agendamento-info">
+                    <p><strong>Data:</strong> {{this.data}}</p>
+                    <p><strong>Hora:</strong> {{this.hora}}</p>
+                </div>
+
+                <h3 class="agendamento-servicos-titulo">Serviço</h3>
+                {{#each this.servicos}}
+                    <div class="servico">
+                        <p>Nome: {{this.nome}}</p>
+                        <p>Preço: R$ {{this.preco}}</p>
+                    </div>
+                {{/each}}
+            </div>
+            {{/each}}
+        {{else}}
+            <div class="agendamento-card agendamento-vazio">
+                <p>Você ainda não possui agendamentos.</p>
+                <a href="/">Agendar agora</a>
+            </div>
+        {{/if}}
+    </div>
+</div>

@@ -8,14 +8,6 @@
     <link rel='stylesheet' type='text/css' href='/css/style.css'>
     <script src='/js/main.js' defer></script>
 </head>
-<script>
-    const toggle = document.querySelector('.nav-toggle');
-    const nav = document.querySelector('header nav');
-    toggle.addEventListener('click', () => {
-        toggle.classList.toggle('open');
-        nav.classList.toggle('open');
-    });
-</script>
 <body>
     <header>
         <button class="nav-toggle" aria-label="Menu">
@@ -26,9 +18,9 @@
         <nav>
             <ul>
                 {{#if user}}
-                    <li><a href="/">Início</a></l>
+                    <li><a href="/">Início</a></li>
                   {{#if isAdmin}}
-                    {{!-- <--botão de Agendamentos que só o barbeiro pode ver --!> --}}
+                    {{!-- botão de Agendamentos que só o barbeiro pode ver --}}
                     <li><a href="/agendamentosAll">Agendamentos</a></li>
                     <li><a href="/addServico">Adicionar serviço</a></li>
                   {{else}}
@@ -44,7 +36,7 @@
         </nav>
     </header>
     {{#if messages.message}}
-        {{messages.message}}
+        <div class="flash-message">{{messages.message}}</div>
     {{/if}}
     <main>
         {{{body}}}
@@ -52,5 +44,15 @@
     <footer>
         <p>&copy; 2024 The Barber. Todos os direitos reservados.</p>
     </footer>
+    <script>
+        const toggle = document.querySelector('.nav-toggle');
+        const nav = document.querySelector('header nav');
+        if (toggle && nav) {
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('open');
+                nav.classList.toggle('open');
+            });
+        }
+    </script>
 </body>
 </html>
