@@ -73,7 +73,6 @@ export default class AgendamentoController{
 
     //este metodo vai servir para o barbeiro ver todos os agendamentos 
         static async agendamentoAll(req, res){
-            const userId = req.user.id
             if(!req.user.id){
                 return res.redirect('/login')
             }

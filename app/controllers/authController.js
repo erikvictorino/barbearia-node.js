@@ -108,6 +108,11 @@ export default class authController{
         //pegando a nova senha do usuario
         const {novaSenha, confirmarNovaSenha} = req.body
 
+        if(novaSenha !== confirmarNovaSenha){
+            req.flash('message', 'As senhas não conferem, tente novamente')
+            return res.render('auth/redefinir')
+        }
+
         try {
             //resgatando o token do banco de dados 
             const resetToken = await resetPass.findOne({where: {token}})
@@ -129,9 +134,8 @@ export default class authController{
             await resetPass.destroy({
                 where: {id: resetToken.id}
             })
-            console.log('4 - token deletado')
             req.flash('message', 'Senha atualizada com sucesso')
-            return res.redirect('/')
+            return res.redirect('/login')
         } catch (error) {
             console.log(error)
             req.flash('message', 'Erro interno')
