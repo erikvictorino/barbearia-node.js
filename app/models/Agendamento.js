@@ -40,13 +40,13 @@ Agendamento.belongsTo(Cliente)
 //um serviço pode ter varios agendamentos
 Servicos.belongsToMany(Agendamento, {
     //criando tabela intermediaria que vai guardar os IDs do servico e agendamento
-    through: 'ServicoAgendamento'
+    through: 'ServicoAgendamentos'
 })
 
 //um agendamento pode ter varios serviços
 Agendamento.belongsToMany(Servicos, {
     //criando tabela intermediaria
-    through: 'ServicoAgendamento'
+    through: 'ServicoAgendamentos'
 })
 
 //exportando o model

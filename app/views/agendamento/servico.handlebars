@@ -8,12 +8,12 @@
         method="POST"
         autocomplete="off"
         id="agendamentoForm"
-        data-tem-servicos="{{#if temServicos}}true{{else}}false{{/if}}"
+        data-tem-servicos="{{#if servicos}}true{{else}}false{{/if}}"
     >
 
-        <label class="section-label">1. Escolha o serviço {{#unless temServicos}}<span class="label-opcional">(opcional)</span>{{/unless}}</label>
+        <label class="section-label">1. Escolha o serviço {{#unless servicos}}<span class="label-opcional">(opcional)</span>{{/unless}}</label>
 
-        {{#if temServicos}}
+        {{#if servicos}}
         <ul class="service-list">
             {{#each servicos}}
             <li class="service-item">
@@ -28,7 +28,7 @@
                     >
                     <span class="service-card-inner">
                         {{#if this.image}}
-                        <img src="/imeg/{{this.image}}" alt="{{this.nome}}">
+                        <img src="{{this.image}}" alt="{{this.nome}}">
                         {{/if}}
                         <h1>{{this.nome}}</h1>
                         <h2>R$ {{this.preco}}</h2>

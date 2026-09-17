@@ -5,7 +5,7 @@ async function checkToken(req, res, next){
     const token = req.cookies.token
 
     if(!token){
-        req.flash('message', 'Você não tem permissões necessarias para acessar')
+        req.flash('message', 'Faça login para realizar esse serviço')
         return res.redirect('/login')
     }
 

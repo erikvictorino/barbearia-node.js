@@ -2,6 +2,7 @@ import { where } from 'sequelize'
 import Agendamento from '../models/Agendamento.js'
 import Cliente from '../models/Cliente.js'
 import Servicos from '../models/Servicos.js'
+import ServicoAgendamento from '../models/ServicoAgendamento.js'
 
 export default class AgendamentoController{
     static async servicos(req, res){
@@ -12,28 +13,52 @@ export default class AgendamentoController{
             console.log(error)
         }
     }
-    /*este metodo vai servir para criar os agendamentos no banco
+    //este metodo vai servir para criar os agendamentos no banco
     static async agendamentoPost(req, res){
-        //pegando os dados do agendamento do cliente
-        const agendamento = {
-            {data, hora} = req.body,
-            userId = req.user.id
+        if(!req.user.id){
+            return res.redirect('/')
         }
-        //pegando o id do serviço que o cliente escolheu
-        conts servicoId = req.servico.id
+        console.log('passou aqui')
 
-        //criando agendamento no banco de dados
-        const criaAgendamento = await Agendamento.Create(agendamento)
+        try {
+            //pegando os dados do agendamento do cliente
+            const agendamento = {
+                data: req.body.data,
+                hora: req.body.hora,
+                clienteId: req.user.id,
+                status: 'pendente',
+                barbeiro_id: 1
+            }
+            console.log(agendamento)
+            //criando agendamento no banco de dados
+            const criaAgendamento = await Agendamento.create(agendamento)
+            console.log('serviço criado no banco')
+            //pegando id do serviço que foi escolhido
+            const servicoId = req.body.id
+            //pegando os dados do serviço escolhido
+            const servico = await Servicos.findByPk(servicoId)
 
-        //pegando o id do agendamento que acabou de ser criado
-        const id_agendamento = criaAgendamento.data.id
+            //criando objeto com os dados do serviço escolhido
+            const servico_Agendamento = {
+                //pegando o id do agendamento que acabou de ser criado
+                agendamentoId: criaAgendamento.id,
+                servicoId,
+                preco: servico.preco,
+                duracao: servico.duracao
+            }
+            console.log(servico_Agendamento)
 
-        //criando o relacioanamento entre agendamento e serviços na tabela intermediaria
-        const agendamentoServico = await ServicoAgendamento(id_agendamento, servicoId)
-
-        res.redirect('admin/agendamentos')
+            //criando o relacioanamento entre agendamento e serviços na tabela intermediaria
+            const agendamentoServico = await ServicoAgendamento.create(servico_Agendamento)
+            console.log(agendamentoServico)
+            console.log('agendamento criado ==================================================================================')
+            return res.redirect('/agendamento')
+        } catch (error) {
+            console.log(error)
+            req.flash('message', 'Problemas internos')
+            return res.redirect('/')
+        }
     }
-    */
     static async dashboard(req, res){
         const userId = req.user.id
         if (!req.user.id) {

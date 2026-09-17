@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import db from '../../config/database.js'
-import Cliente from './Cliente.js'
 
 const resetPass = db.define('resetPassToken', {
     token: {
