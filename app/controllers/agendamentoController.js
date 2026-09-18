@@ -18,7 +18,6 @@ export default class AgendamentoController{
         if(!req.user.id){
             return res.redirect('/')
         }
-        console.log('passou aqui')
 
         try {
             //pegando os dados do agendamento do cliente
@@ -29,10 +28,8 @@ export default class AgendamentoController{
                 status: 'pendente',
                 barbeiro_id: 1
             }
-            console.log(agendamento)
             //criando agendamento no banco de dados
             const criaAgendamento = await Agendamento.create(agendamento)
-            console.log('serviço criado no banco')
             //pegando id do serviço que foi escolhido
             const servicoId = req.body.id
             //pegando os dados do serviço escolhido
@@ -50,8 +47,6 @@ export default class AgendamentoController{
 
             //criando o relacioanamento entre agendamento e serviços na tabela intermediaria
             const agendamentoServico = await ServicoAgendamento.create(servico_Agendamento)
-            console.log(agendamentoServico)
-            console.log('agendamento criado ==================================================================================')
             return res.redirect('/agendamento')
         } catch (error) {
             console.log(error)
@@ -97,24 +92,28 @@ export default class AgendamentoController{
     }
 
     //este metodo vai servir para o barbeiro ver todos os agendamentos 
-        static async agendamentoAll(req, res){
-            if(!req.user.id){
-                return res.redirect('/login')
-            }
+    static async agendamentoAll(req, res){
+        if(!req.user.id){
+            return res.redirect('/login')
+        }
+        try {
             const todosAgendamentos = await Agendamento.findAll({
-                include: [
-                        {
-                            model: Cliente,
-                        }
-                    ],
-                    include: [
-                        {
-                            model: Servicos,
-                        }
-                    ]
+            include: [
+                    {
+                        model: Cliente,
+                    },
+                    {
+                        model: Servicos,
+                    }
+                ]
             })
             const agendamentoAll = todosAgendamentos.map((result) => result.get({plain: true}))
-            console.log(agendamentoAll)
-            res.render('admin/agendamentosAll', {agendamentoAll})
+            console.log(agendamentoAll[0])
+            return res.render('admin/agendamentosAll', {agendamentoAll})
+        } catch (error) {
+            console.log(error)
+            req.flash('message', 'Erro interno')
+            return res.redirect('/')
         }
+    }
 }
