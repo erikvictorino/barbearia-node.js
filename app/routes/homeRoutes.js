@@ -11,4 +11,7 @@ router.post('/', checkToken, Agendamento.agendamentoPost)
 router.get('/agendamentosAll', checkToken, authorizeRoles("admin"), Agendamento.agendamentoAll)
 router.get('/agendamento', checkToken, Agendamento.dashboard)
 
+//router.post('/cancelar-agendamento', checkToken, Agendamento.cancelaAgendamento)
+//router.post('/status-servico', checkToken, authorizeRoles("admin"), Agendamento.servicoConcluido )
+
 export default router

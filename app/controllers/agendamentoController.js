@@ -67,21 +67,15 @@ export default class AgendamentoController{
             //pega agendamentos relacionados ao ID
             include:[
                 {
-                    model: Agendamento,
-                    include: [
-                        {
-                            model: Servicos,
-                        }
-                    ]
-                }
+                    model: Agendamento
+                },
+                {
+                    model: Servicos,
+                },
             ]
         })
-
-        console.log(JSON.stringify(cliente.toJSON(), null, 2))
-
+        //tranformando os agendamentos e serviços buscados em uma array e guardando em uma variavel
         const agendamento = cliente.agendamentos.map((result) => result.get({plain: true}))
-        console.log(agendamento)
-
         /*
         let emptyAgendamento = false
         if(agendamento.length === 0){
@@ -107,8 +101,8 @@ export default class AgendamentoController{
                     }
                 ]
             })
+            //tranformando os clientes, serviços e agendamentos buscados em uma array e guardando em uma variavel
             const agendamentoAll = todosAgendamentos.map((result) => result.get({plain: true}))
-            console.log(agendamentoAll[0])
             return res.render('admin/agendamentosAll', {agendamentoAll})
         } catch (error) {
             console.log(error)
@@ -116,4 +110,13 @@ export default class AgendamentoController{
             return res.redirect('/')
         }
     }
+    /* método para usuario cancelar o agendamento
+    static async cancelaAgendamento(req, res){
+
+    }*/
+
+    /* método para o barbeiro mudar o status do serviço
+    static async servicoConcluido(req, res){
+        
+    }*/
 }
