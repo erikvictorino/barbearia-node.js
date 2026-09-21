@@ -28,6 +28,7 @@ import conn from './config/database.js'
 import homeRoutes from './app/routes/homeRoutes.js'
 import authRoutes from './app/routes/authRoutes.js'
 import servicoRoutes from './app/routes/servicoRoutes.js'
+import userRoutes from './app/routes/userRoutes.js'
 
 //iniciando express na variavel app
 const app = express()
@@ -71,6 +72,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', authRoutes)
 app.use('/', homeRoutes)
 app.use('/', servicoRoutes)
+app.use('/', userRoutes)
 
 async function start(){
     await conn.authenticate()
