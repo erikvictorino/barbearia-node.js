@@ -67,11 +67,11 @@ export default class AgendamentoController{
             //pega agendamentos relacionados ao ID
             include:[
                 {
-                    model: Agendamento
-                },
-                {
-                    model: Servicos,
-                },
+                    model: Agendamento,
+                    include:[
+                        {model: Servicos,}
+                    ],
+                }
             ]
         })
         //tranformando os agendamentos e serviços buscados em uma array e guardando em uma variavel
