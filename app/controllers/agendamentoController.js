@@ -3,6 +3,7 @@ import Agendamento from '../models/Agendamento.js'
 import Cliente from '../models/Cliente.js'
 import Servicos from '../models/Servicos.js'
 import ServicoAgendamento from '../models/ServicoAgendamento.js'
+import authorizeRoles from '../middlewares/checkFuncao.js'
 
 export default class AgendamentoController{
     static async servicos(req, res){
@@ -47,6 +48,11 @@ export default class AgendamentoController{
 
             //criando o relacioanamento entre agendamento e serviços na tabela intermediaria
             const agendamentoServico = await ServicoAgendamento.create(servico_Agendamento)
+            //se for adm vai ser redirecionado para ver todos os agendamentos
+            if(authorizeRoles("admin")){
+                return res.redirect('/agendamentosAll')
+            }
+            //caso seja user normal, vai ver os agendamentos correspondente a seu id
             return res.redirect('/agendamento')
         } catch (error) {
             console.log(error)
