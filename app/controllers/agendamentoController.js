@@ -1,4 +1,5 @@
-import { where } from 'sequelize'
+//importando operadores para consultas no banco de dados
+import {INTEGER, Op} from "sequelize";
 import Agendamento from '../models/Agendamento.js'
 import Cliente from '../models/Cliente.js'
 import Servicos from '../models/Servicos.js'
@@ -21,6 +22,61 @@ export default class AgendamentoController{
         }
 
         try {
+            //pedir para o fronte enviar um array de Ids
+            //pegando o array de ids dos serviços que o usuario escolheu
+            const servicosIds = req.body.servicosIds
+
+            //criando um novo array apenas com ids unicos
+            //ex [1, 3, 3, 5] -> [1, 3, 5]
+            const idsUnicos = new Set(servicosIds)
+
+            //se o tamanho dos array forem iguais, não existe id duplicado
+            if(servicosIds.length === idsUnicos.size){
+                //procurando os serviços escolhidos
+                const servicos = await Servicos.findAll({
+                    //filtrando serviços pelos ids
+                    where:{
+                        id: {
+                            //pegando os serviços cujo os ids estejam no array servicosIds
+                            [Op.in]: servicosIds
+                        }
+                    }
+                })
+                //checando se o serviço escolhido existe no banco
+                if(idsUnicos.size === servicos.length){
+                    next()
+                } else {
+                    return req.flash('message', 'O(s) serviço(s) escolhido não existe')
+                }
+
+                let duracao = 0
+                //looping para somar a duração dos serviços
+                for(let i = 0; i < servicos.length; i++){
+                    duracao = duracao + servicos[i].duracao
+                }
+                //separando as horas dos minutos
+                const horaInicio = req.body.hora.split(':')
+                //convertendo para o tipo numero
+                const horas = Number(horaInicio[0])
+                //convertendo para o tipo numero
+                const minutos = Number(horaInicio[1])
+                //calculo de inicio do corte em minutos
+                const inicioEmMinutos = (horas * 60) + minutos
+                //calculando horario de fim do serviço
+                const fimEmMinutos = duracao + inicioEmMinutos
+                //horario de fechamento da barbearia
+                const horarioFechamentoEmMinutos = (18 * 60) + 30
+                //verificando se o tempo de serviço não ultrapassa o horario de fechamento
+                if(fimEmMinutos > horarioFechamentoEmMinutos){
+                    req.flash('message', 'Horario escolhido ultrapassa o horario de atendimento')
+                    return res.redirect('/')
+                }
+            }
+            //se os tamanhos forem diferentes interrompe processo
+            else{
+                return req.flash('message', "Serviços duplicados")
+            }
+
             //pegando os dados do agendamento do cliente
             const agendamento = {
                 data: req.body.data,
@@ -31,11 +87,7 @@ export default class AgendamentoController{
             }
             //criando agendamento no banco de dados
             const criaAgendamento = await Agendamento.create(agendamento)
-            //pegando id do serviço que foi escolhido
-            const servicoId = req.body.id
-            //pegando os dados do serviço escolhido
-            const servico = await Servicos.findByPk(servicoId)
-
+            
             //criando objeto com os dados do serviço escolhido
             const servico_Agendamento = {
                 //pegando o id do agendamento que acabou de ser criado
