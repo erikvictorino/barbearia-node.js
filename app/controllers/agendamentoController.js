@@ -25,6 +25,10 @@ export default class AgendamentoController {
             //pedir para o fronte enviar um array de Ids
             //pegando o array de ids dos serviços que o usuario escolheu
             let servicosIds = req.body.servicosIds
+            //transformando toda variavel que chegar em um array
+            if (servicosIds !== undefined && !Array.isArray(servicosIds)) {
+                servicosIds = [servicosIds];
+            }
             //validação caso array venha vazio
             if (!Array.isArray(servicosIds) || servicosIds.length === 0) {
                 req.flash('message', 'Escolha o serviço desejado')
