@@ -75,7 +75,11 @@ app.use('/', servicoRoutes)
 app.use('/', userRoutes)
 
 async function start(){
-    await conn.authenticate()
+    try {
+        await conn.authenticate()
+    } catch (error) {
+        console.log(error)
+    }    
 }
 start()
 

@@ -6,8 +6,8 @@ export default class clienteController{
             const clientesAll = await Cliente.findAll({raw: true})
             return res.render('admin/clientesAll', {clientesAll})
         } catch (error) {
-            console.log(error)
-            return req.flash('message', 'Erro interno')
+            req.flash('message', 'Erro interno')
+            return res.redirect('/')
         }
     }
 

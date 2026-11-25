@@ -4,7 +4,6 @@ import Agendamento from '../models/Agendamento.js'
 import Cliente from '../models/Cliente.js'
 import Servicos from '../models/Servicos.js'
 import ServicoAgendamento from '../models/ServicoAgendamento.js'
-import authorizeRoles from '../middlewares/checkFuncao.js'
 
 export default class AgendamentoController {
     static async servicos(req, res) {
@@ -146,7 +145,7 @@ export default class AgendamentoController {
                 }
 
                 //se for adm vai ser redirecionado para ver todos os agendamentos
-                if (authorizeRoles("admin")) {
+                if (req.user.tipo_usuario === 'admin') {
                     return res.redirect('/agendamentosAll')
                 }
                 //caso seja user normal, vai ver os agendamentos correspondente a seu id

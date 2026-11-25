@@ -11,7 +11,7 @@
         data-tem-servicos="{{#if servicos}}true{{else}}false{{/if}}"
     >
 
-        <label class="section-label">1. Escolha o serviço {{#unless servicos}}<span class="label-opcional">(opcional)</span>{{/unless}}</label>
+        <label class="section-label">1. Escolha o serviço {{#unless servicos}}<span class="label-opcional">(Selecione pelo menos um serviço. Você pode combinar mais de um.)</span>{{/unless}}</label>
 
         {{#if servicos}}
         <ul class="service-list">
@@ -19,12 +19,11 @@
             <li class="service-item">
                 <label class="service-card" for="servico-{{this.id}}">
                     <input
-                        type="radio"
-                        name="id"
+                        type="checkbox"
+                        name="servicosIds"
                         id="servico-{{this.id}}"
                         value="{{this.id}}"
                         class="service-radio"
-                        required
                     >
                     <span class="service-card-inner">
                         {{#if this.image}}
@@ -44,7 +43,6 @@
         {{else}}
         <div class="service-empty">
             <p>Nenhum serviço cadastrado no momento.</p>
-            <span>Você pode continuar e escolher normalmente a data e o horário do seu corte.</span>
             {{#if isAdmin}}
             <a href="/addServico" class="empty-link">Cadastrar serviço</a>
             {{/if}}

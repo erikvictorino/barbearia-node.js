@@ -7,7 +7,7 @@ const resetPass = db.define('resetPassToken', {
         allowNull: false
     },
     expiresAt: {
-        type: DataTypes.TIME,
+        type: DataTypes.DATE,
         allowNull: false
     },
 })

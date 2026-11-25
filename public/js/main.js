@@ -48,8 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function servicoValido() {
-        if (!temServicos) return true
-        return Boolean(form.querySelector('.service-radio:checked'))
+        if (temServicos && Boolean(form.querySelector('.service-radio:checked'))){
+            return true
+        }
+        return false
     }
 
     function atualizarBotaoSubmit() {
@@ -100,6 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 calendarGrid.querySelectorAll('.calendar-day.selected').forEach((el) => el.classList.remove('selected'))
                 botaoDia.classList.add('selected')
                 dataInput.value = valorData
+                horaInput.value = ''
+                renderizarHorarios()
                 limparErro()
                 atualizarBotaoSubmit()
             })

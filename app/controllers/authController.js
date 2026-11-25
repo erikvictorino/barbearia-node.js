@@ -19,8 +19,8 @@ export default class authController{
         const user = await Cliente.findOne({where: {telefone}})
 
         if(!user){
-            req.flash('message', 'Usuario não encontrado')
-            return res.redirect('/cadastro')
+            req.flash('message', 'Telefone ou senha incorretos')
+            return res.redirect('/login')
         }
         //comparando senhas
         const senhaCerta = bcrypt.compareSync(senha, user.senha)
@@ -55,7 +55,7 @@ export default class authController{
             //verificando se o usuario existe no banco de dados
             const user = await Cliente.findOne({where: {email}})
             if(!user){
-                return res.status(404).json({error: 'Usuario não encontrado faça um registro no site'})
+                return res.status(404).json({error: 'Se o e-mail estiver cadastrado, você receberá um link'})
             }
             //gerando o token de reset
             const resetToken = crypto.randomBytes(32).toString("hex")
@@ -118,7 +118,8 @@ export default class authController{
             const resetToken = await resetPass.findOne({where: {token}})
             //verificando se o token existe ou se ainda esta valido
             if(!resetToken || resetToken.expiresAt < new Date()){
-                return req.flash('message', 'Token invalido ou expirado')
+                req.flash('message', 'Token invalido ou expirado, tente novamente')
+                return res.render(`/reset-password/${token}`)
             }
             //encriptando a nova senha do usuario
             const hashedSenha = bcrypt.hashSync(novaSenha, 10)
