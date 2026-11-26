@@ -8,28 +8,28 @@ import bcrypt from 'bcryptjs'
 //importando o jwt
 import jwt from 'jsonwebtoken'
 
-export default class authController{
-    static login(req, res){
+export default class authController {
+    static login(req, res) {
         res.render('auth/login')
     }
-    static async loginPost(req, res){
-        const {telefone, senha} = req.body
+    static async loginPost(req, res) {
+        const { telefone, senha } = req.body
 
         //resgatando cliente
-        const user = await Cliente.findOne({where: {telefone}})
+        const user = await Cliente.findOne({ where: { telefone } })
 
-        if(!user){
+        if (!user) {
             req.flash('message', 'Telefone ou senha incorretos')
             return res.redirect('/login')
         }
         //comparando senhas
         const senhaCerta = bcrypt.compareSync(senha, user.senha)
 
-        if(!senhaCerta){
+        if (!senhaCerta) {
             req.flash('message', 'Usuario ou senha incorretos tente novamente')
             return res.redirect('/login')
         }
-        const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1h'})
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' })
         res.cookie(
             'token',
             token,
@@ -43,24 +43,29 @@ export default class authController{
         return res.redirect('/')
     }
 
-    static redefinirSenha(req, res){
+    static redefinirSenha(req, res) {
         res.render('auth/emailParaRedefinirSenha')
     }
-    
-    static async redefinirSenhaPost(req, res){
+
+    static async redefinirSenhaPost(req, res) {
         //pegando o email digitado pelo usuario
-        const {email} = req.body
+        const { email } = req.body
 
         try {
             //verificando se o usuario existe no banco de dados
-            const user = await Cliente.findOne({where: {email}})
-            if(!user){
-                return res.status(404).json({error: 'Se o e-mail estiver cadastrado, você receberá um link'})
+            const user = await Cliente.findOne({ where: { email } })
+            if (!user) {
+                return res.status(404).json({ error: 'Se o e-mail estiver cadastrado, você receberá um link' })
             }
             //gerando o token de reset
             const resetToken = crypto.randomBytes(32).toString("hex")
             //definindo tempo de expiração do token
             const expiresAt = new Date(Date.now() + 1000 * 60 * 15)
+
+            //deletando o token antigo do usuario caso tenha
+            await resetPass.destroy({
+                where: { clienteId: user.id }
+            })
 
             //salvando token no banco de dados
             await resetPass.create({
@@ -71,14 +76,17 @@ export default class authController{
                 //tempo de expiração do token
                 expiresAt
             })
-            //chamando função de enviar email
-            await sendMail(
-                //destinatario
-                user.email,
-                //assunto do email
-                "Redefinição de senha",
-                //html para redefinição de senha
-                `
+
+            //try catch para tratamento de erros relacionado ao envio do email
+            try {
+                //chamando função de enviar email
+                await sendMail(
+                    //destinatario
+                    user.email,
+                    //assunto do email
+                    "Redefinição de senha",
+                    //html para redefinição de senha
+                    `
                 <h2> Olá, ${user.nome}</h2>
                 <p>Você solicitou redefinição de senha. Clique no link abaixo para redefinir: </p>
                 <a href="${process.env.API_URL}/reset-password/${resetToken}">
@@ -86,9 +94,17 @@ export default class authController{
                 </a>
                 <p>Esse link expira em 15 minutos.</p>
                 `,
-            )
-            req.flash('message', 'Email enviado com sucesso')
-            return res.redirect('/redefinir')
+                )
+                req.flash('message', 'Email enviado com sucesso')
+                return res.redirect('/redefinir')
+            } catch (error) {
+                //se o envio do email falhar o token recen criado é destroido
+                await resetPass.destroy({
+                    where: { token: resetToken }
+                })
+                req.flash('message', 'Não foi possível enviar o e-mail de redefinição de senha. Tente novamente.')
+                return res.redirect('/redefinir')
+            }
         } catch (error) {
             console.error("Erro em requestPasswordReset:", error)
             req.flash('message', 'Erro interno')
@@ -96,44 +112,45 @@ export default class authController{
         }
     }
 
-    static resetPassword(req, res){
+    static resetPassword(req, res) {
         const token = req.params.token
-        res.render('auth/redefinir', {token})
+        res.render('auth/redefinir', { token })
     }
 
     //criando a função para salvar a nova senha 
-    static async resetPasswordPost(req, res){
+    static async resetPasswordPost(req, res) {
         //pegando o token pela URL
         const token = req.params.token
         //pegando a nova senha do usuario
-        const {novaSenha, confirmarNovaSenha} = req.body
+        const { novaSenha, confirmarNovaSenha } = req.body
 
-        if(novaSenha !== confirmarNovaSenha){
+        if (novaSenha !== confirmarNovaSenha) {
             req.flash('message', 'As senhas não conferem, tente novamente')
-            return res.render('auth/redefinir')
+            return res.redirect(`/reset-password/${token}`)
         }
 
         try {
             //resgatando o token do banco de dados 
-            const resetToken = await resetPass.findOne({where: {token}})
+            const resetToken = await resetPass.findOne({ where: { token } })
             //verificando se o token existe ou se ainda esta valido
-            if(!resetToken || resetToken.expiresAt < new Date()){
+            if (!resetToken || resetToken.expiresAt < new Date()) {
                 req.flash('message', 'Token invalido ou expirado, tente novamente')
-                return res.render(`/reset-password/${token}`)
+                return res.redirect(`/reset-password/${token}`)
             }
             //encriptando a nova senha do usuario
-            const hashedSenha = bcrypt.hashSync(novaSenha, 10)
+            const salt = bcrypt.genSaltSync(10)
+            const hashedSenha = bcrypt.hashSync(novaSenha, salt)
             //atualizando a senha do usuario
             await Cliente.update(
-            {
-                senha: hashedSenha,
-            },
-            {
-                where: {id: resetToken.clienteId,}
-            })
+                {
+                    senha: hashedSenha,
+                },
+                {
+                    where: { id: resetToken.clienteId, }
+                })
             //deletando o token depois de usado
             await resetPass.destroy({
-                where: {id: resetToken.id}
+                where: { id: resetToken.id }
             })
             req.flash('message', 'Senha atualizada com sucesso')
             return res.redirect('/')
@@ -144,21 +161,21 @@ export default class authController{
         }
     }
 
-    static register(req, res){
+    static register(req, res) {
         res.render('auth/register')
     }
-    
-    static async registerPost(req, res){
-        const { nome, telefone, email, senha, confirma_senha} = req.body
 
-        if(senha !== confirma_senha){
+    static async registerPost(req, res) {
+        const { nome, telefone, email, senha, confirma_senha } = req.body
+
+        if (senha !== confirma_senha) {
             req.flash('message', 'As senhas não conferem, tente novamente')
             return res.render('auth/register')
         }
 
-        const checkIfUserExists = await Cliente.findOne({where: {telefone}})
+        const checkIfUserExists = await Cliente.findOne({ where: { telefone } })
 
-        if(checkIfUserExists){
+        if (checkIfUserExists) {
             req.flash('message', 'O telefone já está em uso')
             return res.render('auth/register')
         }
@@ -174,10 +191,10 @@ export default class authController{
             tipo_usuario: "user",
         }
 
-        try{
+        try {
             const novoCliente = await Cliente.create(cliente)
             req.flash('message', 'Cadastro realizado com sucesso')
-            const token = jwt.sign({id: novoCliente.id}, process.env.JWT_SECRET, {expiresIn: '1h'})
+            const token = jwt.sign({ id: novoCliente.id }, process.env.JWT_SECRET, { expiresIn: '1h' })
             res.cookie(
                 'token',
                 token,
@@ -188,13 +205,13 @@ export default class authController{
                 }
             )
             return res.redirect('/')
-        } catch (err){
+        } catch (err) {
             console.log(err)
             req.flash('message', 'Erro ao realizar cadastro')
             return res.redirect('/register')
         }
     }
-    static logout(req, res){
+    static logout(req, res) {
         res.clearCookie('token')
         return res.redirect('/login')
     }
