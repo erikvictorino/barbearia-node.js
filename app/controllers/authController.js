@@ -15,6 +15,13 @@ export default class authController {
     static async loginPost(req, res) {
         const { telefone, senha } = req.body
 
+        //se não vier telefone ou telefone for igual a string vazia cai no if
+        //mesma condição para senha
+        if (!telefone || telefone.trim() === "" || !senha) {
+            req.flash( 'message', 'Telefone e senha são obrigatorios' )
+            return res.redirect('/login')
+        }
+
         //resgatando cliente
         const user = await Cliente.findOne({ where: { telefone } })
 
@@ -55,7 +62,8 @@ export default class authController {
             //verificando se o usuario existe no banco de dados
             const user = await Cliente.findOne({ where: { email } })
             if (!user) {
-                return res.status(404).json({ error: 'Se o e-mail estiver cadastrado, você receberá um link' })
+                req.flash('message', 'Se o e-mail estiver cadastrado, você receberá um link')
+                return res.redirect('/redefinir')
             }
             //gerando o token de reset
             const resetToken = crypto.randomBytes(32).toString("hex")
@@ -168,16 +176,41 @@ export default class authController {
     static async registerPost(req, res) {
         const { nome, telefone, email, senha, confirma_senha } = req.body
 
+        //validando se veio todos os dados
+        //se não vier nome ou nome for igual a string vazia mostra erro
+        if (!nome || nome.trim() === "") {
+            req.flash( 'message', 'Nome é obrigatorio' )
+            return res.redirect('/register')
+        }
+        //se não vier telefone ou telefone for igual a string vazia mostra erro
+        else if (!telefone || telefone.trim() === "") {
+            req.flash( 'message', 'Telefone é obrigatorio' )
+            return res.redirect('/register')
+        }
+        //se não vier email ou email for igual a string vazia mostra erro
+        else if (!email || email.trim() === "") {
+            req.flash( 'message', 'E-mail é obrigatorio' )
+            return res.redirect('/register')
+        }
+        else if (!senha) {
+            req.flash( 'message', 'senha é obrigatoria' )
+            return res.redirect('/register')
+        }
+        else if (!confirma_senha) {
+            req.flash( 'message', 'Contra senha é obrigatorio' )
+            return res.redirect('/register')
+        }
+
         if (senha !== confirma_senha) {
             req.flash('message', 'As senhas não conferem, tente novamente')
-            return res.render('auth/register')
+            return res.redirect('/register')
         }
 
         const checkIfUserExists = await Cliente.findOne({ where: { telefone } })
 
         if (checkIfUserExists) {
-            req.flash('message', 'O telefone já está em uso')
-            return res.render('auth/register')
+            req.flash('message', 'Este telefone já possui uma conta. Faça login ou redefina sua senha caso não se lembre dela.')
+            return res.redirect('/login')
         }
 
         const salt = bcrypt.genSaltSync(10)

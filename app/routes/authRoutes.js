@@ -15,9 +15,9 @@ router.post('/request-reset', authController.redefinirSenhaPost)
 router.get('/reset-password/:token', authController.resetPassword)
 router.post('/reset-password/:token', authController.resetPasswordPost)
 
-router.get('/cadastro', authController.register)
-router.post('/cadastro', authController.registerPost)
-router.post('/logout', authController.logout)
+router.get('/register', authController.register)
+router.post('/register', authController.registerPost)
+router.get('/logout', authController.logout)
 
 //exportando as rotas
 export default router
