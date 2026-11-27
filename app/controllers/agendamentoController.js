@@ -21,6 +21,28 @@ export default class AgendamentoController {
         }
 
         try {
+            //data escolhida pelo usuario, (chega em formato de string e transforma em uma objeto Date)
+            const dataEscolhida = new Date(req.body.data)
+            //transformando string em number
+            const dataUser = req.body.data.split('-').map(Number)
+
+            //data de hoje com horario
+            const data = new Date()
+            //reescrevendo a data de hoje mas sem horario
+            const dataHoje = new Date(data.getFullYear(), data.getMonth(), data.getDate())
+
+            if(!dataEscolhida){
+                req.flash('message', 'Escolha uma data para o seu agendamento')
+                return res.redirect('/')
+            } else if (Number.isNaN(dataEscolhida.getTime())){
+                req.flash('message', 'Escolha uma data valida para seu agendamento')
+                return res.redirect('/')
+            }else if(dataEscolhida < dataHoje){
+                req.flash('message', 'Não é possivel escolher data anterior a de hoje')
+                return res.redirect('/')
+            }
+
+
             //pedir para o fronte enviar um array de Ids
             //pegando o array de ids dos serviços que o usuario escolheu
             let servicosIds = req.body.servicosIds
